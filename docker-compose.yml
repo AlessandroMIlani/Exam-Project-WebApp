@@ -1,0 +1,32 @@
+services:
+  frontend:
+    image: node:20.17.0-alpine3.20
+    container_name: frontend
+    command: ["/bin/sh", "-c", "cd /usr/src/app && npm ci && npm run dev -- --host"]
+    volumes:
+      - ./client:/usr/src/app
+    ports:
+      - "5173:5173"
+    networks:
+      - wa-exam
+  server1:
+    image: node:20.17.0-alpine3.20
+    container_name: server1
+    command: ["/bin/sh", "-c", "cd /usr/src/app && npm ci && npx nodemon index.js"]
+    volumes:
+      - ./server:/usr/src/app
+    networks:
+      - wa-exam
+  server2:
+    image: node:20.17.0-alpine3.20
+    container_name: server2
+    command: ["/bin/sh", "-c", "cd /usr/src/app && npm ci && npx nodemon index.js"]
+    volumes:
+      - ./server2:/usr/src/app
+    networks:
+      - wa-exam
+    
+networks:
+  wa-exam:
+    name: wa-exam
+    external: false
