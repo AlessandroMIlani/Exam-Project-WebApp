@@ -51,9 +51,39 @@ const getConcerts = async () => {
 });
 }
 
+const getConcertByID = async (id) => {
+    return getJson(fetch(SERVER_URL + 'concerts/' + id, {
+        method: 'GET'
+    })).then(concert => {
+        const clientConcert = {
+            id: concert.id,
+            name: concert.name,
+            date: dayjs(concert.datetime).format('YYYY-MM-DD HH:mm'),
+            theater: concert.theater,
+            description: concert.description,
+            rows: concert.rows,
+            columns: concert.columns,
+            total_seats: concert.total_seat
+        };
+        return clientConcert;
+    });
+}
+
+const getBookedSeatsByID = async (id) => {
+    return getJson(fetch(SERVER_URL + 'concerts/' + id + '/booked', {
+        method: 'GET'
+    })).then(seats => {
+            const clientSeat = {
+                id: seats.concertId,
+                seats: seats.seats
+            };
+            return clientSeat;
+
+    });
+}
 
 /**
- * This function wants username and password inside a "credentials" object.
+ * This function wants email and password inside a "credentials" object.
  * It executes the log-in.
  */
 const logIn = async (credentials) => {
@@ -89,5 +119,5 @@ const logout = async () => {
     )
   };
 
-const API = {getConcerts, getUserInfo, logIn, logout};
+const API = {getConcerts, getConcertByID, getBookedSeatsByID, getUserInfo, logIn, logout};
 export default API;
