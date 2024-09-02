@@ -18,7 +18,7 @@ function Navbar(props) {
           <Nav className="ms-auto">
             {userContext.loggedIn ? (
               <NavDropdown title={<span><i className="bi bi-person-circle"></i> <span>{userContext.user.email.split('@')[0]}</span></span>} id="basic-nav-dropdown">
-                <NavDropdown.Item as={Link} to="/oreds">Orders</NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/orders">Orders</NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item as={Button} onClick={props.logout}>Logout</NavDropdown.Item>
               </NavDropdown>
