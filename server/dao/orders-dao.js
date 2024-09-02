@@ -3,7 +3,7 @@
 const db = require('../db');
 const dayjs = require("dayjs");
 
-const convertResultToObject = (dbRecord) => {
+const convertRowtoConcert = (dbRecord) => {
     return {
         id: dbRecord.id,
         concert_id: dbRecord.concert_id,
@@ -34,7 +34,7 @@ exports.getBookedSeats = (concertId) => {
         db.all(query, [concertId], (err, rows) => {
             if (err) { reject(err); }
             const seats = rows.map((row) => {
-                return convertResultToObject(row);
+                return convertRowtoConcert(row);
             });
             resolve(seats);
         })/* .catch(err => {

@@ -4,6 +4,17 @@
 
 const db = require('../db');
 
+const convertRowtoUser = (row) => {
+  return {
+    id: row.id,
+    email: row.email,
+    hash_pswd: row.hash_pswd,
+    salt: row.salt,
+    isLoyal: row.is_loyal
+  };
+};
+
+
 // This function returns user's information given its id.
 exports.getUserById = (id) => {
   return new Promise((resolve, reject) => {
@@ -13,31 +24,24 @@ exports.getUserById = (id) => {
         reject(err);
       else if (row === undefined)
         resolve({ error: 'User not found.' });
-      else {
-        // By default, the local strategy looks for "username": 
-        // for simplicity, instead of using "email", we create an object with that property.
-        const user = { id: row.id, email: row.email, isLoyal: row.is_loyal }
-        resolve(user);
+      else { resolve(convertRowtoUser(row));
       }
     });
   });
 };
 
-// This function is used at log-in time to verify username and password.
-exports.getUser = (email, password) => {
-  console.log('DAO: getUser, email: ', email, 'password: ', password);
+// This function returns user's information given its email.
+exports.getUserByEmail = (email) => {
   return new Promise((resolve, reject) => {
     const sql = 'SELECT * FROM users WHERE email=?';
     db.get(sql, [email], (err, row) => {
-      if (err) {
+      if (row === undefined) {
+        console.log("User not found");
+        reject({ code: 401, message: "User not found" });
+      }
+      else if (err) {
         reject(err);
-      } else if (row === undefined) {
-        resolve(false);
-      }
-      else {
-        const user = { id: row.id, email: row.email, hash_pswd: row.hash_pswd, salt:row.salt, isLoyal: row.is_loyal };
-        resolve(user);
-      }
+      } else { resolve(convertRowtoUser(row)); }
     });
   });
 };

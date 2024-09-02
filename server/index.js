@@ -31,13 +31,13 @@ app.use(cors(corsOptions));
 const passport = require('passport');                              // authentication middleware
 const LocalStrategy = require('passport-local');                   // authentication strategy (username and password)
 
-passport.use(new LocalStrategy(async function verify(email, password, callback) {
-  console.log('LocalStrategy, user: ', email, password);
-  const user = await userService.getUser(email, password)
-  if (!user)
-    return callback(null, false, 'Incorrect username or password');
-
-  return callback(null, user); // NOTE: user info in the session (all fields returned by userService.getUser, i.e, id, username, name)
+passport.use(new LocalStrategy(async function checkPassword(email, password, callback) {
+  return userService.checkPassword(email, password).then(user => {
+    if (!user) {
+      return callback(null, false);
+    }
+    return callback(null, user)
+  }).catch(err => { return callback(err, false) });
 }));
 
 // Serializing in the session the user object given from LocalStrategy(verify).
@@ -118,7 +118,7 @@ app.post('/api/concerts/:id/book', isLoggedIn, [
             .then((seats) => res.json(seats))
             .catch((err) => res.status(err.code).json(err.message));
         } else {
-            res.status(400).json({ message: `Seats ${result} are already booked`, seats: result });
+          res.status(400).json({ message: `Seats ${result} are already booked`, seats: result });
         }
       })
       .catch((err) => res.status(400).json(err.message));
@@ -133,35 +133,17 @@ app.get('/api/user/booked', isLoggedIn, async (req, res) => {
 app.delete('/api/user/booked/:id', isLoggedIn,
   [check('id').isInt({ min: 1 })],
   async (req, res) => {
-  seatService.deleteBookedSeat(req.params.id, req.user.id)
-    .then(() => res.json({ message: 'booking deleted' }))
-    .catch((err) => res.status(err.code).json(err.message));
-});
+    seatService.deleteBookedSeat(req.params.id, req.user.id)
+      .then(() => res.json({ message: 'booking deleted' }))
+      .catch((err) => res.status(err.code).json(err.message));
+  });
 
 
 // ----------------- Users API -----------------
 
 // POST /api/sessions 
 // This route is used for performing login.
-app.post('/api/sessions', function (req, res, next) {
-  passport.authenticate('local', (err, user, info) => {
-    if (err)
-      return next(err);
-    if (!user) {
-      // display wrong login messages
-      return res.status(401).json({ error: info });
-    }
-    // success, perform the login and extablish a login session
-    req.login(user, (err) => {
-      if (err)
-        return next(err);
 
-      // req.user contains the authenticated user, we send all the user info back
-      // this is coming from userService.getUser() in LocalStratecy Verify Fn
-      return res.json(req.user);
-    });
-  })(req, res, next);
-});
 
 // GET /api/sessions/current
 // This route checks whether the user is logged in or not.
@@ -176,11 +158,35 @@ app.get('/api/sessions/current', (req, res) => {
 
 // DELETE /api/session/current
 // This route is used for loggin out the current user.
-app.delete('/api/sessions/current', (req, res) => {
+app.delete('/api/logout', (req, res) => {
   req.logout(() => {
     res.status(200).json({});
   });
 });
+
+
+app.post('/api/login', function (req, res, next) {
+
+  console.log('POST /api/login enter');
+
+  return passport.authenticate('local', (err, user) => {
+    if (err) {
+      return res.status(err.code).json({ message: err.message });
+    }
+
+
+    // success, perform the login and extablish a login session
+    req.login(user, (err) => {
+      if (err) {
+        return next(err);
+      }
+      return res.json(req.user);
+    });
+  })(req, res, next);
+
+});
+
+
 
 
 
@@ -189,3 +195,4 @@ app.delete('/api/sessions/current', (req, res) => {
 app.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`);
 });
+
