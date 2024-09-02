@@ -27,7 +27,7 @@ function AppWithRouter(props) {
 
   const [ConcertList, setConcertList] = useState([]);
   const [message, setMessage] = useState('');
-  // const [dirty, setDirty] = useState(true);
+  const [dirty, setDirty] = useState(true);
 
 // If an error occurs, the error message will be shown in a toast.
 const handleErrors = (err) => {
