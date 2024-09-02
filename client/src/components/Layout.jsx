@@ -1,10 +1,15 @@
-import { Container, Row, Col, Button } from 'react-bootstrap';
+import { Container, Row, Col, Button, Spinner } from 'react-bootstrap';
 import { Link, Outlet, useParams } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState, useContext } from 'react';
 
 import { ConcertList } from './ConcertList';
 import { LoginForm } from './Auth';
 import API from '../API';
+
+import { ConcertData } from './ConcertData';
+import { ConcertOrder } from './ConcertOrder';
+
+import UserContext from '../contexts/UserContext'; 
 
 function NotFoundLayout(props) {
   return (
@@ -50,13 +55,36 @@ function HomeLayout(props) {
 }
 
 
-function ConcertLayout(props) {
-  const concertId = useParams();
+function ConcertLayout() {
+  const [concert, setConcert] = useState(null);
+  const [preBookedSeats, setPreBookedSeats] = useState([]);
+  const [bookedSeats, setSeats] = useState([]);
+  const { concertId } = useParams();
+  const userContext = useContext(UserContext);
+  
+  useEffect(() => {
+    API.getConcertByID(concertId).then(NewConcert => {
+      setConcert(NewConcert);
+    }).catch(err => {
+      props.handleErrors(err);
+    });
+  }, [concertId]);
+
+
   // info component
   // seat component
   // "cart" component (posti selezioni + tasto di acquisto + opzione per posti random)
   return (
     <>
+      {concert === null 
+        ? <LoadingLayout /> 
+        : <div className='container'>
+            <ConcertData concert={concert} preBookedSeats={preBookedSeats} setPreBookedSeats={setPreBookedSeats} bookedSeats={bookedSeats} setSeats={setSeats} />
+            {userContext.loggedIn
+              ? <ConcertOrder concert={concert} preBookedSeats={preBookedSeats} setPreBookedSeats={setPreBookedSeats} totalSeats={concert.total_seats} bookedSeats={bookedSeats}/>
+              : <p> For order a ticket you need to login! </p>
+            }
+          </div>}
     </>
   );
 }
@@ -77,4 +105,12 @@ function OrdersLayout(props) {
   );
 }
 
-export { NotFoundLayout, LoginLayout, HomeLayout, ConcertLayout, AboutLayout, OrdersLayout };
+function LoadingLayout(props) {
+  return (
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+      <Spinner animation="border" />
+    </div>
+  );
+}
+
+export { NotFoundLayout, LoadingLayout, LoginLayout, HomeLayout, ConcertLayout, AboutLayout, OrdersLayout };
