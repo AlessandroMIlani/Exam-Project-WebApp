@@ -5,14 +5,14 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  background-color: #fff;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
+} 
+/*
 a {
   font-weight: 500;
   color: #646cff;
@@ -24,7 +24,7 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
+  display: flex; 
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
@@ -66,3 +66,5 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+*/
