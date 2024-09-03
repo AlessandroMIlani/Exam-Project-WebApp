@@ -1,5 +1,4 @@
-import {Container, Nav, Navbar as NavBootstrap, Form, Button, FormControl, NavDropdown} from 'react-bootstrap';
-import 'bootstrap-icons/font/bootstrap-icons.css';
+import {Container, Nav, Navbar as NavBootstrap, Button, NavDropdown, Col, Row} from 'react-bootstrap';
 import { GiPirateFlag } from "react-icons/gi";
 import { Link, Outlet } from 'react-router-dom';
 import { useContext } from 'react';
@@ -29,6 +28,14 @@ function Navbar(props) {
         </Container>
       </NavBootstrap>
       <Outlet />
+      <footer className="bg-light text-center text-lg-start mt-auto py-3">
+        <Row>
+          <Col>
+          <p className="mb-0">WebApp Exam Project - PoliTO</p>
+          <p className="mb-0">© Matricola: s332136</p>
+          </Col>
+        </Row>
+      </footer>
     </>
   );
 }
