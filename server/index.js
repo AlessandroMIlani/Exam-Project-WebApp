@@ -2,7 +2,7 @@
 
 const express = require('express');
 const morgan = require('morgan');                                  // logging middleware
-const { check, validationResult, oneOf } = require('express-validator'); // validation middleware
+const { check } = require('express-validator'); // validation middleware
 const cors = require('cors');
 
 const seatService = require('./services/order-service.js');
@@ -31,7 +31,7 @@ app.use(cors(corsOptions));
 const passport = require('passport');                              // authentication middleware
 const LocalStrategy = require('passport-local');                   // authentication strategy (username and password)
 
-passport.use(new LocalStrategy(async function checkPassword(email, password, callback) {
+passport.use(new LocalStrategy( {usernameField: "email", passowrdField: "password"}, async function checkPassword(email, password, callback) {
   return userService.checkPassword(email, password).then(user => {
     if (!user) {
       return callback(null, false);
@@ -45,10 +45,8 @@ passport.serializeUser(function (user, callback) { // this user is id + username
   callback(null, user);
 });
 
-// Starting from the data in the session, we extract the current (logged-in) user.
 passport.deserializeUser(function (user, callback) { // this user is id + email + name 
-  // if needed, we can do extra check here (e.g., double check that the user is still in the database, etc.)
-  // e.g.: return userService.getUserById(id).then(user => callback(null, user)).catch(err => callback(err, null));
+   
 
   return callback(null, user); // this will be available in req.user
 });
@@ -92,14 +90,18 @@ app.get('/api/concerts', async (req, res) => {
     .catch((err) => res.status(err.code).json(err.message));
 });
 
-app.get('/api/concerts/:id', async (req, res) => {
+app.get('/api/concerts/:id',
+  check('id').isInt({ min: 1 }),
+  async (req, res) => {
   concertService.getConcertById(req.params.id)
     .then((concert) => res.json(concert))
     .catch((err) => res.status(err.code).json(err.message));
 });
 
 
-app.get('/api/concerts/:id/booked', async (req, res) => {
+app.get('/api/concerts/:id/booked',
+  check('id').isInt({ min: 1 }),
+   async (req, res) => {
   seatService.getBookedSeats(req.params.id)
     .then((seats) => res.json(seats))
     .catch((err) => res.status(err.code).json(err.message));
@@ -107,15 +109,16 @@ app.get('/api/concerts/:id/booked', async (req, res) => {
 
 
 app.post('/api/concerts/:id/book', isLoggedIn, [
-  check('seats').isArray({ min: 1 }),
+  body('seats').isArray({ min: 1 }),
+  body('seats.*').isInt({ min: 1 }),
   check('id').isInt({ min: 1 }),
 ],
   async (req, res) => {
-    seatService.checkSeats(req.body.concertId, req.body.seats)
+    seatService.checkSeats(req.params.id, req.body.seats)
       .then((result) => {
-        if (result.length === 0) {
-          seatService.bookSeats(req.user.id, req.body.concertId, req.body.seats)
-            .then((seats) => res.json(seats))
+        if (result.length === 0 || result === true) {
+          seatService.bookSeats(req.user.id, req.params.id, req.body.seats)
+            .then((BookID) => res.status(200).json({message: 'booking confirmed', id: BookID.id}))
             .catch((err) => res.status(err.code).json(err.message));
         } else {
           res.status(400).json({ message: `Seats ${result} are already booked`, seats: result });
