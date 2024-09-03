@@ -35,14 +35,14 @@ exports.checkPassword = (email, password) => {
                 }
 
                 if (!crypto.timingSafeEqual(Buffer.from(user.hash_pswd, 'hex'), CalcPswd)) { // WARN: it is hash and not password (as in the week example) in the DB
-                    console.log("Incorrect username or password");
-                    reject({ code: 401, message: "Incorrect username or password " });
+                    console.log("Incorrect email or password");
+                    reject({ code: 401, message: "Incorrect email or password " });
                 }
                 resolve(user);
             });
         }).catch(err => {
-            console.log("Incorrect username or password");
-            err.message = "Incorrect username or password ";
+            console.log("Incorrect email or password");
+            err.message = "Incorrect email or password ";
             reject(err);
         });
     })

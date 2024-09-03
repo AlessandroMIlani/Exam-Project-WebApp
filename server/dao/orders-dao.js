@@ -20,7 +20,8 @@ const convertSeatsWithConcert = (dbRecord) => {
         user_id: dbRecord.user_id,
         seats: (JSON.parse(dbRecord.seats)).id,
         concert_date: dayjs(dbRecord.concert_date).format("YYYY-MM-DD HH:mm"),
-        concert_name: dbRecord.concert_name
+        concert_name: dbRecord.concert_name,
+        columns: dbRecord.columns
     };
 }
 
@@ -47,9 +48,11 @@ exports.getBookedSeats = (concertId) => {
 exports.getBookedByUser = (userId) => {
     return new Promise((resolve, reject) => {
         const query = `
-            SELECT orders.*, concerts.datetime AS concert_date, concerts.name AS concert_name
+            SELECT orders.*, concerts.datetime AS concert_date, concerts.name AS concert_name, sizes.columns as columns
             FROM orders
             JOIN concerts ON orders.concert_id = concerts.id
+            JOIN theaters ON concerts.theater_id = theaters.id
+            JOIN sizes ON theaters.size_id = sizes.id
             WHERE user_id = ? AND deleted_at IS NULL
         `;
         db.all(query, [userId], (err, rows) => {

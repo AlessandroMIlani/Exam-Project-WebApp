@@ -37,6 +37,7 @@ exports.checkSeats = (concertId, seat_ids) => {
         const alredyBooked = seat_ids.filter(r => booked.includes(r));
         return alredyBooked;
     }).catch(err => {
+        console.log("Some error in promise: ", err);
         throw { code: err.code, message: { msg: err.message  } };
     });
 
@@ -55,7 +56,7 @@ exports.bookedByUser = (userId) => {
 exports.bookSeats = (userId, concertId, seat_ids) => {
     // tranform array seat_ids in to {"id":[ 10,11,12]}
     const seat_ids_json = '{"id":[' + seat_ids.join(",") + ']}';
-    console.log(seat_ids_json);
+
     const promise = seatDao.bookSeats(userId, concertId, seat_ids_json);
     return promise.then(res => {
         return res;
