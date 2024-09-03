@@ -3,7 +3,7 @@ import { Form, Button, Alert, Col, Row } from 'react-bootstrap';
 import { useNavigate, Link } from 'react-router-dom';
 
 function LoginForm(props) {
-  const [username, setUsername] = useState('bessassommazou-4952@yopmail.com');
+  const [email, setEmail] = useState('bessassommazou-4952@yopmail.com');
   const [password, setPassword] = useState('kZ2VW*et');
 
   const [errorMessage, setErrorMessage] = useState('');
@@ -13,10 +13,10 @@ function LoginForm(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const credentials = { username, password };
+    const credentials = { email, password };
 
-    if (!username) {
-      setErrorMessage('Username cannot be empty');
+    if (!email) {
+      setErrorMessage('Email cannot be empty');
     } else if (!password) {
       setErrorMessage('Password cannot be empty');
     } else {
@@ -33,14 +33,14 @@ function LoginForm(props) {
       <Col xs={9} data-bs-theme="dark">
         <h2 className="display-3 mb-4">Login</h2>
 
-        <Form onSubmit={handleSubmit} data-bs-theme="dark" className="p-3"style={{border: '1px solid black', borderRadius: '5px'}}>
+        <Form onSubmit={handleSubmit} data-bs-theme="dark" className="p-3" style={{border: '1px solid black', borderRadius: '5px'}}>
           {errorMessage ? <Alert dismissible onClose={() => setErrorMessage('')} variant="danger">{errorMessage}</Alert> : null}
           <Form.Group className="mb-3">
             <Form.Label>E-m@il</Form.Label>
             <Form.Control
               type="email"
-              value={username} placeholder="Example: john.doe@polito.it"
-              onChange={(ev) => setUsername(ev.target.value)}
+              value={email} placeholder="Example: john.doe@polito.it"
+              onChange={(ev) => setEmail(ev.target.value)}
             />
           </Form.Group>
           <Form.Group className="mb-3">
