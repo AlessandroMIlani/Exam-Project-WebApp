@@ -82,6 +82,46 @@ const getBookedSeatsByID = async (id) => {
     });
 }
 
+const bookSeats = async (concertId, seats) => {
+    console.log('booking seats: ', seats);
+    console.log('For concertId: ', concertId);
+    return getJson(fetch(SERVER_URL + 'concerts/' + concertId + '/book', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials: 'include',
+        body: JSON.stringify({seats})
+    }));
+}
+
+const getBookedSeatsByUser = async () => {
+    return getJson(fetch(SERVER_URL + 'user/booked', {
+        method: 'GET',
+        credentials: 'include'
+    })).then(seats => {
+        return seats.map(seat => {
+            const clientSeat = {
+                id: seat.id,
+                concert_id: seat.concert_id,
+                user_id: seat.user_id,
+                seats: seat.seats,
+                concert_date: dayjs(seat.concert_date).format('YYYY-MM-DD HH:mm'),
+                concert_name: seat.concert_name,
+                columns: seat.columns
+            };
+            return clientSeat;
+        });
+    });
+}
+
+const deleteBookedSeat = async (id) => {
+    return getJson(fetch(SERVER_URL + 'user/booked/' + id, {
+        method: 'DELETE',
+        credentials: 'include'
+    }));
+}
+
 /**
  * This function wants email and password inside a "credentials" object.
  * It executes the log-in.
@@ -119,5 +159,5 @@ const logout = async () => {
     )
   };
 
-const API = {getConcerts, getConcertByID, getBookedSeatsByID, getUserInfo, logIn, logout};
+const API = {getConcerts, getConcertByID, getBookedSeatsByID, getBookedSeatsByUser, bookSeats, deleteBookedSeat, getUserInfo, logIn, logout};
 export default API;
