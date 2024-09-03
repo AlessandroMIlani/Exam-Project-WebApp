@@ -1,86 +1,77 @@
 import { useEffect, useState, useContext } from 'react';
+import { Row, Col } from 'react-bootstrap';
+
 import API from '../API';
 import { LoadingLayout } from './Layout';
 
 import "../styles/ConcertData.css";
 
 import UserContext from '../contexts/UserContext';
-
+import { getSeat } from '../services/utils';
 
 const ConcertData = (props) => {
 
   const { preBookedSeats, setPreBookedSeats, bookedSeats, setSeats, concert } = props;
-  const { id, name, date, theater, description, rows, columns } = concert;
+  const { id, name, date, theater, description, rows, columns, total_seats } = concert;
+  const [isLoading, setIsLoading] = useState(true);
+
 
   const userContext = useContext(UserContext);
-
   useEffect(() => {
+    console.log("ConcertData useEffect");
     API.getBookedSeatsByID(id).then(seats => {
       setSeats(seats);
+      setIsLoading(false);
+
     }).catch(err => {
       console.log(err);
+      // show errror
+      setIsLoading(false);
+
     });
   }, [id]);
-
-  function getRandomInt(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  }
-
-
-  function getCoodinates(seatNumber, rows, cols) {
-    const row = Math.floor((seatNumber - 1) / cols);
-    const col = (seatNumber - 1) % cols;
-    const letter = String.fromCharCode(65 + row);
-    return { letter, col };
-  }
-
-  function getSeat(seatNumber, rows, cols) {
-    const { letter, col } = getCoodinates(seatNumber, rows, cols);
-    return `${letter}-${col + 1}`;
-  }
 
 
 
   const buildTheater = () => {
-    const theaterRows = [];
-    for (let i = 0; i < rows; i++) {
-      const rowCells = [];
-      for (let j = 0; j < columns; j++) {
-        const id = i * columns + j + 1;
-        const seatLabel = getSeat(id, rows, columns);
-        rowCells.push(
-          <td
-            key={id}
-            id={`seats-${id}`}
-            className={`seat ${bookedSeats.length === 0 ? "available" : bookedSeats.seats.includes(id) ? 'booked' : preBookedSeats.includes(id) ? 'pre-booked' : 'available'} `}
-            onClick={() => !bookedSeats.seats.includes(id) && bookSeats(id)}
-          >
-            {seatLabel}
-          </td>
-        );
-      }
-      theaterRows.push(<tr key={i}>{rowCells}</tr>);
-    }
-    return theaterRows;
+    return Array.from({ length: rows }).map((_, i) => (
+      <tr key={i}>
+        {Array.from({ length: columns }).map((_, j) => {
+          const id = i * columns + j + 1;
+          const seatLabel = getSeat(id, columns);
+          const seatClass = `seat ${bookedSeats.seats.includes(id)
+            ? 'booked'
+            : (userContext.loggedIn && preBookedSeats.seatsId.includes(id))
+              ? 'pre-booked'
+              : 'available'
+            }`;
+
+          return (
+            <td
+              key={id}
+              id={`seats-${id}`}
+              className={seatClass}
+              onClick={() => userContext.loggedIn && !bookedSeats.seats.includes(id) && bookSeats(id, seatLabel)}
+            >
+              {seatLabel}
+            </td>
+          );
+        })}
+      </tr>
+    ));
   };
 
-  const bookSeats = (id) => {
-    if (preBookedSeats.includes(id)) {
-      const updatedSeats = preBookedSeats.filter(seat => seat !== id);
-      setPreBookedSeats(updatedSeats);
+  const bookSeats = (id, seatLabel) => {
+    if (preBookedSeats.seatsId.includes(id)) {
+      const updatedSeats = preBookedSeats.seatsId.filter(seat => seat !== id);
+      const updatedSeatsName = preBookedSeats.seatsLabel.filter(seat => seat !== seatLabel);
+      setPreBookedSeats({ ...preBookedSeats, seatsId: updatedSeats, seatsLabel: updatedSeatsName });
     } else {
-      const updatedSeats = [...preBookedSeats, id];
-      setPreBookedSeats(updatedSeats);
+      const updatedSeats = [...preBookedSeats.seatsId, id];
+      const updatedSeatsName = [...preBookedSeats.seatsLabel, seatLabel];
+      setPreBookedSeats({ ...preBookedSeats, seatsId: updatedSeats, seatsLabel: updatedSeatsName });
     }
   };
-
-  const sendSeats = () => {
-    console.debug(preBookedSeats);
-    console.debug(carts);
-  };
-
 
   return (
     <>
@@ -89,13 +80,27 @@ const ConcertData = (props) => {
         <p>{date}</p>
         <p>{theater}</p>
         <p>{description}</p>
-        {rows && columns
-          ? <table class="theater">
+        {isLoading
+          ? <LoadingLayout /> :
+          <Row>
+            <Col>
+              <p><strong>Total Seats:</strong></p> {total_seats}
+            </Col>
+            <Col>
+              <p><strong>Available Seats:</strong></p> { total_seats - bookedSeats.seats.length}
+            </Col>
+            <Col>
+              <p><strong>Booked Seats:</strong></p> {bookedSeats.seats.length}
+            </Col>
+          </Row>}
+
+        {isLoading
+          ? <LoadingLayout />
+          : <table className="theater">
             <tbody>
               {buildTheater(rows, columns)}
             </tbody>
           </table>
-          : <LoadingLayout />
         }
       </div>
     </>
