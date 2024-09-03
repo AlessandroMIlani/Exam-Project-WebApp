@@ -8,7 +8,7 @@
 
 .theater {
     border-collapse: separate; /* Ensures that cells are separated */
-    border-spacing: 5; /* Adds space between cells */
+    border-spacing: 8px; /* Adds space between cells */
 }
 
 .theaters th, .theaters td {

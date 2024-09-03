@@ -1,0 +1,8 @@
+.order-card h5 {
+    margin-bottom: 1rem; /* Adjust this value to increase/decrease spacing */
+  }
+  
+  .order-card p {
+    margin-top: 0.1rem; /* Adjust this value to increase/decrease spacing */
+    margin-bottom: 0.1rem; /* Adjust this value to increase/decrease spacing */
+  }
