@@ -10,7 +10,7 @@ const ConcertCard = (props) => {
 
     return (
 
-        <Card style={{ height: '12rem' }}>
+        <Card style={{ height: '12rem' }} className='concert-card'>
             <Card.Body>
                 <Card.Title>{name}</Card.Title>
                 <Card.Subtitle className="mb-2 text-muted">{date} at {theater}</Card.Subtitle>
@@ -18,9 +18,11 @@ const ConcertCard = (props) => {
                 <Card.Text>
                     {description.substring(0, 20) + '...' || description}
                 </Card.Text>
+                <Link style={{ color: '#fff', textDecoration: 'none' }} to={`/concert/${id}`}>
                 <Button variant="dark" className='mx-auto' style={{ position: 'absolute', bottom: '5px' }}>
-                    <Link style={{ color: '#fff', textDecoration: 'none' }} to={`/concert/${id}`}>Go to &gt;&gt;</Link>
-                </Button>
+                Go to &gt;&gt;
+                </Button> </Link>
+                
             </Card.Body>
         </Card>
     );
