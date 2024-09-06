@@ -17,7 +17,7 @@ function Navbar(props) {
           <Nav className="ms-auto">
             {userContext.loggedIn ? (
               <NavDropdown title={<span><i className="bi bi-person-circle"></i> <span>{userContext.user.email.split('@')[0]}</span></span>} id="basic-nav-dropdown">
-                <NavDropdown.Item as={Link} to="/orders">Orders</NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/orders">Reservations</NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item as={Button} onClick={props.logout}>Logout</NavDropdown.Item>
               </NavDropdown>
@@ -28,14 +28,6 @@ function Navbar(props) {
         </Container>
       </NavBootstrap>
       <Outlet />
-      <footer className="bg-light text-center text-lg-start mt-auto py-3">
-        <Row>
-          <Col>
-          <p className="mb-0">WebApp Exam Project - PoliTO</p>
-          <p className="mb-0">© Matricola: s332136</p>
-          </Col>
-        </Row>
-      </footer>
     </>
   );
 }
