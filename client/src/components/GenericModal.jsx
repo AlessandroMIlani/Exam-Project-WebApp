@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, Button } from 'react-bootstrap';
+import { Modal, Button, ListGroup } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
 const GenericModal = ({ show, handleClose, title, bodyText, items, onConfirm }) => {
@@ -10,19 +10,26 @@ const GenericModal = ({ show, handleClose, title, bodyText, items, onConfirm }) 
       </Modal.Header>
       <Modal.Body>
         {bodyText}
-        <ul>
+        <ListGroup style={{ maxHeight: '15rem', overflowY: 'scroll' }}>
           {items.map((item, index) => (
-            <li key={index}>{item}</li>
+            <ListGroup.Item key={index}>{item}</ListGroup.Item>
           ))}
-        </ul>
+        </ListGroup>
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={handleClose}>
           Close
         </Button>
-        <Button variant="primary" onClick={onConfirm}>
-          Confirm
-        </Button>
+        {bodyText.includes("delete") ?
+          <Button variant="danger" onClick={onConfirm}>
+            Delete
+          </Button>
+          :
+          <Button variant="primary" onClick={onConfirm}>
+            Confirm
+          </Button>  
+      }
+
       </Modal.Footer>
     </Modal>
   );
