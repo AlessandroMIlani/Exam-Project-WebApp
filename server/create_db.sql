@@ -48,12 +48,12 @@ INSERT INTO `theaters` (`name`, `size_id`) VALUES
 ('Royal Albert Hall', 3);
 
 INSERT INTO `concerts` (`name`, `datetime`, `description`, `theater_id`) VALUES 
-('Sabaton Event', '2025-12-01 20:00', ' "The War to End All Wars" Tour', 1),
-('Gojira Reunion', '2024-12-02 20:00', ' "From Mars to Sirius" Tour', 2),
-('BTS in USA', '2023-11-03 20:00', ' "Love Yourself" Tour', 3),
-('The Weeknd', '2024-11-04 20:00', ' "After Hours" Tour', 1),
-('Metallica', '2024-10-06 20:00', ' "WorldWired" Tour', 3),
-('Queen', '2023-11-07 20:00', ' "The Works" Tour', 1);
+('Sabaton Event', '2025-12-01 20:00', ' The War to End All Wars - Tour', 1),
+('Gojira Reunion', '2024-12-02 20:00', ' From Mars to Sirius - Tour', 2),
+('BTS in USA', '2023-11-03 20:00', ' Love Yourself - Tour', 3),
+('The Weeknd', '2024-11-04 20:00', ' After Hours - Tour', 1),
+('Metallica', '2024-10-06 20:00', ' WorldWired - Tour', 3),
+('Queen', '2023-11-07 20:00', ' The Works - Tour', 1);
 
 
 
@@ -71,7 +71,7 @@ INSERT into `users` (`email`, `hash_pswd`, `salt`, `is_loyal`) VALUES
 ('darkuser@yhaoo.com', '451a28b5e4a82bc706e91de22912208e06faabe2cfb04414587647f41e941ff62211894c9e98e2943bbabd5dddbe418d17d77911e6bdb074c4f25eda4cbf2aba', 'iIbMkWlmYMEMHiGV', 0),
 ('out-of-ideas@email.com', '0efbc21799152e67687a412660643b98e2c218406ecf9d3d0cb49c83e9e723804bf587002d74fa4653cfe8546e8758999fd6a67b03fe32b7d19e111096353001', 'iTcLPIGdjeSvWMTA', 1),
 ('pls-stop@outlook.com', 'a2601ae79e6cb7a734f959c639fa8c0164e43ce92f25435fc0f5ee663527da8d63cbaae009ac4d7e6c78708a5208d958336f8f65396602f02894d68904ac119d', 'aclMKHaYuZZPoosN', 0),
-('the-last@gmail,com', 'b86326eb284065535692ef1be88aebf9ef147620cfaf3c90053b6c28140ab215a7231b134246e7bac69ffd7782a8be457fb4e9b03456249514828715ad58d8ae', 'nkLYzwcpmjmtYigP', 1);
+('the-last@gmail.com', 'b86326eb284065535692ef1be88aebf9ef147620cfaf3c90053b6c28140ab215a7231b134246e7bac69ffd7782a8be457fb4e9b03456249514828715ad58d8ae', 'nkLYzwcpmjmtYigP', 1);
 
 
 INSERT INTO `orders` (`user_id`, `concert_id`, `seats`) VALUES 
