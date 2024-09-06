@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react'
-import './App.css'
+import './styles//App.css'
 import { BrowserRouter, Route, Routes, useNavigate, Navigate } from 'react-router-dom'
 
 import { Navbar } from './components/Navbar'
 
-import { HomeLayout, ConcertLayout, AboutLayout, LoginLayout, OrdersLayout, NotFoundLayout } from './components/Layout'
+import { HomeLayout, ConcertLayout, LoginLayout, NotFoundLayout, ReservationsLayout } from './components/Layout'
 
 import UserContext from './contexts/UserContext'
 
@@ -24,28 +24,33 @@ function AppWithRouter(props) {
 
   const [loggedIn, setLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
+  const [authToken, setAuthToken] = useState(undefined);
 
   const [ConcertList, setConcertList] = useState([]);
-  const [message, setMessage] = useState('');
-  const [dirty, setDirty] = useState(true);
 
-// If an error occurs, the error message will be shown in a toast.
-const handleErrors = (err) => {
-  //console.log('DEBUG: err: '+JSON.stringify(err));
-  let msg = '';
-  if (err.error)
-    msg = err.error;
-  else if (err.errors) {
-    if (err.errors[0].msg)
-      msg = err.errors[0].msg + " : " + err.errors[0].path;
-  } else if (Array.isArray(err))
-    msg = err[0].msg + " : " + err[0].path;
-  else if (typeof err === "string") msg = String(err);
-  else msg = "Unknown Error";
-  setMessage(msg); // WARNING: a more complex application requires a queue of messages. In this example only the last error is shown.
-  console.log(err);
 
-  setTimeout(() => setDirty(true), 2000);
+  const [messageQueue, setMessageQueue] = useState([]);
+  const [currentMessage, setCurrentMessage] = useState('');
+
+  const handleErrors = (err) => {
+    let msg = '';
+    if (err.error)
+      msg = err.error;
+    else if (err.errors) {
+      if (err.errors[0].msg)
+        msg = err.errors[0].msg + " : " + err.errors[0].path;
+    } else if (Array.isArray(err))
+      msg = err[0].msg + " : " + err[0].path;
+    else if (typeof err === "string") msg = String(err);
+    else msg = "Unknown Error";
+
+    setMessageQueue(prevQueue => [...prevQueue, msg]);
+    console.log(err);
+  };
+
+const renewToken = () => {
+  API.getAuthToken().then((resp) => { setAuthToken(resp.token); } )
+  .catch(err => {console.log("DEBUG: renewToken err: ",err)});
 }
 
 useEffect(() => {
@@ -55,24 +60,32 @@ useEffect(() => {
       const user = await API.getUserInfo();
       setLoggedIn(true);
       setUser(user);
+      API.getAuthToken().then((resp) => { setAuthToken(resp.token); })
     } catch (err) {}
   };
   checkAuth();
 }, []); 
 
 
-  const handleLogin = async (credentials) => {
-    try {
-      const user = await API.logIn(credentials);
-      setUser(user);
-      setLoggedIn(true);
-    } catch (err) { throw err; }
+  const handleLogin = (credentials) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const user = await API.logIn(credentials);
+        setUser(user);
+        setLoggedIn(true);
+        renewToken();
+        resolve({ code: 200, message: 'Login successful' });
+      } catch (err) {
+        reject(err);
+      }
+    });
   };
 
 
   const handleLogout = async () => {
     await API.logout();
     setLoggedIn(false);
+    setAuthToken(undefined);
     // clean up everything
     setUser(null);
   };
@@ -82,10 +95,9 @@ useEffect(() => {
     <Routes>
       <Route path="/" element={<Navbar logout={handleLogout}/>}>
         <Route index element={<HomeLayout setConcertList={setConcertList} ConcertList={ConcertList} handleErrors={handleErrors}/>} />
-        <Route path="/concert/:concertId" element={<ConcertLayout />} />
-        <Route path="/about" element={<AboutLayout />} />
+        <Route path="/concert/:concertId" element={<ConcertLayout authToken={authToken} setAuthToken={setAuthToken}/>} />
         <Route path="/login" element={!loggedIn ? <LoginLayout login={handleLogin} /> : <Navigate replace to='/' />} />
-        <Route path="/orders" element={<OrdersLayout />} />
+        <Route path="/reservations" element={ !loggedIn ? <ReservationsLayout /> : <Navigate replace to='/' />} />
         <Route path="*" element={<NotFoundLayout />} />
       </Route>
     </Routes>
