@@ -1,17 +1,15 @@
-import { Container, Row, Col, Button, Spinner } from 'react-bootstrap';
+import { Container, Button, Spinner } from 'react-bootstrap';
 import { Link, Outlet, useParams } from 'react-router-dom';
-import { useEffect, useState, useContext } from 'react';
+import { useEffect } from 'react';
 
 
-import UserContext from '../contexts/UserContext'; 
 import API from '../API';
 
 import { ConcertList } from './ConcertList';
-import { LoginForm } from './Auth';
-import { ConcertData } from './ConcertData';
-import { ConcertOrder } from './ConcertOrder';
-import { OrdersList } from './OrdersList';
-
+import { LoginForm } from './LoginForm';
+import { ReservationsList } from './ReservationsList';
+import { ConcertPage} from './ConcertPage.jsx';
+import { Footer } from '../components/Footer'
 
 function NotFoundLayout(props) {
   return (
@@ -20,6 +18,7 @@ function NotFoundLayout(props) {
       <Link to="/">
         <Button variant="primary">Go back to the main page!</Button>
       </Link>
+      <Footer />
     </>
   );
 }
@@ -28,6 +27,7 @@ function LoginLayout(props) {
   return (
     <Container>
       <LoginForm login={props.login} />
+      <Footer />
     </Container>
   );
 }
@@ -47,64 +47,35 @@ function HomeLayout(props) {
 
   return (
     <>
-      <div className="container">
+      <Container>
         <ConcertList Concerts={props.ConcertList} />
         <Outlet />
-      </div>
+        <Footer />
+      </Container>
 
     </>
   );
 }
 
 
-function ConcertLayout() {
-  const [concert, setConcert] = useState(null);
-  const [preBookedSeats, setPreBookedSeats] = useState({ seatsId: [], seatsLabel: [] });
-  const [bookedSeats, setSeats] = useState([]);
+function ConcertLayout(props) {
   const { concertId } = useParams();
-  const userContext = useContext(UserContext);
-  
-  useEffect(() => {
-    API.getConcertByID(concertId).then(NewConcert => {
-      setConcert(NewConcert);
-    }).catch(err => {
-      props.handleErrors(err);
-    });
-  }, [concertId]);
 
-
-  // info component
-  // seat component
-  // "cart" component (posti selezioni + tasto di acquisto + opzione per posti random)
   return (
     <>
-      {concert === null 
-        ? <LoadingLayout /> 
-        : <div className='container'>
-            <ConcertData concert={concert} preBookedSeats={preBookedSeats} setPreBookedSeats={setPreBookedSeats} bookedSeats={bookedSeats} setSeats={setSeats} />
-            {userContext.loggedIn
-              ? <ConcertOrder concert={concert} preBookedSeats={preBookedSeats} setPreBookedSeats={setPreBookedSeats} totalSeats={concert.total_seats} bookedSeats={bookedSeats} setSeats={setSeats}/>
-              : <p> For order a ticket you need to login! </p>
-            }
-          </div>}
+      <ConcertPage authToken={props.authToken} setAuthToken={props.setAuthToken} handleErrors={props.handleErrors} concertId={concertId}/>
+      <Footer />
     </>
-  );
+  )
 }
 
-function AboutLayout(props) {
-  // se ho tempo, pagina con un po' di info sull'esame
-  return (
-    <>
-    </>
-  );
-}
-
-function OrdersLayout(props) {
+function ReservationsLayout(props) {
   // lista ordini dell'utente
   return (
     <>
-    <OrdersList />
+    <ReservationsList />
     <Outlet />
+    <Footer />
     </>
   );
 }
@@ -117,4 +88,4 @@ function LoadingLayout(props) {
   );
 }
 
-export { NotFoundLayout, LoadingLayout, LoginLayout, HomeLayout, ConcertLayout, AboutLayout, OrdersLayout };
+export { NotFoundLayout, LoadingLayout, LoginLayout, HomeLayout, ConcertLayout, ReservationsLayout };
