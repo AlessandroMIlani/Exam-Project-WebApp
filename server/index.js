@@ -2,8 +2,12 @@
 
 const express = require('express');
 const morgan = require('morgan');                                  // logging middleware
-const { check } = require('express-validator'); // validation middleware
+const { body, check } = require('express-validator'); // validation middleware
 const cors = require('cors');
+
+const jsonwebtoken = require('jsonwebtoken');
+const jwtSecret = 'VGhpcyBpcyBhIGxvb29vb29uZyBzdHJpbmcgdGhhdCBpIGVuY29kZWQgaW4gQkFTRTY0IGZvciBnZXQgc29tZXRpbmcgdG8gdXNlIGFzIGEgc2VjcmV0IGtleQ==';
+const expireTime = 600; // seconds
 
 const seatService = require('./services/order-service.js');
 const concertService = require('./services/concert-service.js');
@@ -109,9 +113,9 @@ app.get('/api/concerts/:id/booked',
 
 
 app.post('/api/concerts/:id/book', isLoggedIn, [
+  check('id').isInt({ min: 1 }),
   body('seats').isArray({ min: 1 }),
   body('seats.*').isInt({ min: 1 }),
-  check('id').isInt({ min: 1 }),
 ],
   async (req, res) => {
     seatService.checkSeats(req.params.id, req.body.seats)
@@ -151,7 +155,6 @@ app.delete('/api/user/booked/:id', isLoggedIn,
 // GET /api/sessions/current
 // This route checks whether the user is logged in or not.
 app.get('/api/sessions/current', (req, res) => {
-  console.log('GET /api/sessions/current, user: ', req.user);
   if (req.isAuthenticated()) {
     res.status(200).json(req.user);
   }
@@ -190,6 +193,18 @@ app.post('/api/login', function (req, res, next) {
 });
 
 
+
+// ----------------- Auth Token API -----------------
+
+// GET /api/auth-token
+app.get('/api/auth-token', isLoggedIn, (req, res) => {
+  let authLevel = req.user.isLoyal;
+  
+  const payloadToSign = { access: authLevel, authId: 1234 };
+  const jwtToken = jsonwebtoken.sign(payloadToSign, jwtSecret, {expiresIn: expireTime});
+
+  res.json({token: jwtToken, authLevel: authLevel});  // authLevel is just for debug. Anyway it is in the JWT payload
+});
 
 
 
