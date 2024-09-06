@@ -74,13 +74,12 @@ const ConcertOrder = (props) => {
     const handlePrenotationByserverClose = () => { setShowPrenotationModal(false); };
 
     const confirmPrenotationByServer = () => {
-        setPreBookedSeats({ seatsId: [], seatsLabel: [] });
+        setPreBookedSeats([]);
         const availableSeats = Array.from({ length: totalSeats }, (_, i) => i + 1).filter(seat => !bookedSeats.seats.includes(seat));
         if (numSeats > availableSeats.length) {
             return;
         }
-        const selectedSeats = availableSeats.slice(0, numSeats);
-        confirmPreBooking(selectedSeats);
+        confirmPreBooking(availableSeats.slice(0, numSeats));
         setShowPrenotationModal(false);
     };
 
