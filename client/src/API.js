@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import { json } from 'react-router-dom';
 
 const SERVER_URL = 'http://localhost:3001/api/';
+const SERVER2_URL = 'http://localhost:3002/api/';
 
 
 /**
@@ -36,19 +37,21 @@ function getJson(httpResponsePromise) {
 
 const getConcerts = async () => {
     return getJson(
-     fetch(SERVER_URL + 'concerts', {
-        method: 'GET'},
-    )).then(json =>{ return json.map((concert) => {
-        const clientConcert = {
-            id: concert.id,
-            name: concert.name,
-            date: dayjs(concert.datetime).format('YYYY-MM-DD'),
-            theater: concert.theater,
-            description: concert.description
-        };
-        return clientConcert;
-    })
-});
+        fetch(SERVER_URL + 'concerts', {
+            method: 'GET'
+        },
+        )).then(json => {
+            return json.map((concert) => {
+                const clientConcert = {
+                    id: concert.id,
+                    name: concert.name,
+                    date: dayjs(concert.datetime).format('YYYY-MM-DD'),
+                    theater: concert.theater,
+                    description: concert.description
+                };
+                return clientConcert;
+            })
+        });
 }
 
 const getConcertByID = async (id) => {
@@ -73,25 +76,23 @@ const getBookedSeatsByID = async (id) => {
     return getJson(fetch(SERVER_URL + 'concerts/' + id + '/booked', {
         method: 'GET'
     })).then(seats => {
-            const clientSeat = {
-                id: seats.concertId,
-                seats: seats.seats
-            };
-            return clientSeat;
+        const clientSeat = {
+            id: seats.concertId,
+            seats: seats.seats
+        };
+        return clientSeat;
 
     });
 }
 
 const bookSeats = async (concertId, seats) => {
-    console.log('booking seats: ', seats);
-    console.log('For concertId: ', concertId);
     return getJson(fetch(SERVER_URL + 'concerts/' + concertId + '/book', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         credentials: 'include',
-        body: JSON.stringify({seats})
+        body: JSON.stringify({ seats })
     }));
 }
 
@@ -128,15 +129,15 @@ const deleteBookedSeat = async (id) => {
  */
 const logIn = async (credentials) => {
     return getJson(fetch(SERVER_URL + 'login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include',  // this parameter specifies that authentication cookie must be forwared
-      body: JSON.stringify(credentials),
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        credentials: 'include',  // this parameter specifies that authentication cookie must be forwared
+        body: JSON.stringify(credentials),
     })
     )
-  };
+};
 
 /**
  * This function is used to verify if the user is still logged-in.
@@ -144,20 +145,46 @@ const logIn = async (credentials) => {
  */
 const getUserInfo = async () => {
     return getJson(fetch(SERVER_URL + 'sessions/current', {
-      // this parameter specifies that authentication cookie must be forwared
-      credentials: 'include'
+        // this parameter specifies that authentication cookie must be forwared
+        credentials: 'include'
     })
     )
-  };
+};
 
 const logout = async () => {
     return getJson(fetch(SERVER_URL + 'logout', {
         method: 'DELETE',
-      // this parameter specifies that authentication cookie must be forwared
-      credentials: 'include'
+        // this parameter specifies that authentication cookie must be forwared
+        credentials: 'include'
     })
     )
-  };
+};
 
-const API = {getConcerts, getConcertByID, getBookedSeatsByID, getBookedSeatsByUser, bookSeats, deleteBookedSeat, getUserInfo, logIn, logout};
+async function getAuthToken() {
+    return getJson(fetch(SERVER_URL + 'auth-token', {
+        // this parameter specifies that authentication cookie must be forwared
+        credentials: 'include'
+    })
+    )
+}
+
+// ----------------- Server 2 API ----------------- 
+
+const getDiscount = async (seatsLabel, authToken) => {
+    return getJson(fetch(SERVER2_URL + 'discount', {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${authToken}`,
+            'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({ seats: seatsLabel}),
+    }));
+}
+
+
+const API = {
+    getConcerts, getConcertByID, getBookedSeatsByID, getBookedSeatsByUser, bookSeats, deleteBookedSeat, getUserInfo,
+    logIn, logout, getAuthToken, getDiscount
+};
 export default API;
