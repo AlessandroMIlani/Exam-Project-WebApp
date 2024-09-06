@@ -93,11 +93,11 @@ useEffect(() => {
   return (
     <UserContext.Provider value={{ user, loggedIn }}>
     <Routes>
-      <Route path="/" element={<Navbar logout={handleLogout}/>}>
+      <Route path="/" element={<Navbar logout={handleLogout} />}>
         <Route index element={<HomeLayout setConcertList={setConcertList} ConcertList={ConcertList} handleErrors={handleErrors}/>} />
-        <Route path="/concert/:concertId" element={<ConcertLayout authToken={authToken} setAuthToken={setAuthToken}/>} />
+        <Route path="/concert/:concertId" element={<ConcertLayout authToken={authToken} setAuthToken={setAuthToken} handleErrors={handleErrors} />} />
         <Route path="/login" element={!loggedIn ? <LoginLayout login={handleLogin} /> : <Navigate replace to='/' />} />
-        <Route path="/reservations" element={ !loggedIn ? <ReservationsLayout /> : <Navigate replace to='/' />} />
+        <Route path="/reservations" element={ loggedIn ? <ReservationsLayout /> : <Navigate replace to='/' />} />
         <Route path="*" element={<NotFoundLayout />} />
       </Route>
     </Routes>
