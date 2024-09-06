@@ -14,16 +14,21 @@ function LoginForm(props) {
   const handleSubmit = (event) => {
     event.preventDefault();
     const credentials = { email, password };
-
     if (!email) {
       setErrorMessage('Email cannot be empty');
     } else if (!password) {
       setErrorMessage('Password cannot be empty');
     } else {
       props.login(credentials)
-        .then(() => navigate("/"))
+        .then((res) => {
+          if (res.code === 200) {
+            navigate("/");
+          } else {
+            setErrorMessage("How did you end up here?: " + res.message);
+          }
+        })
         .catch((err) => {
-          setErrorMessage(err.error);
+          setErrorMessage(err.message);
         });
     }
   };
@@ -52,8 +57,7 @@ function LoginForm(props) {
             />
           </Form.Group>
           <div style={{marginTop: '5rem'}}>
-            <Button as={Link} to="/" className="me-2" variant='secondary'> &lt;&lt; Annulla</Button>
-
+          <Button onClick={() => navigate(-1)} className="me-2" variant='secondary'> &lt;&lt; Back</Button>
             <Button style={{float: 'right'}} variant="dark" type="submit">Login</Button>
           </div>
         </Form>
@@ -64,11 +68,4 @@ function LoginForm(props) {
 };
 
 
-function LoginButton(props) {
-  const navigate = useNavigate();
-  return (
-    <Button variant="outline-light" onClick={() => navigate('/login')}>Login</Button>
-  )
-}
-
-export { LoginForm, LoginButton };
+export { LoginForm };
