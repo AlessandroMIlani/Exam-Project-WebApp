@@ -1,0 +1,18 @@
+
+.sticky-footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  z-index: 1;
+}
+
+
+
+.concert-card {
+  transition: transform 0.3s ease;
+}
+
+.concert-card:hover {
+  transform: scale(1.1);
+}

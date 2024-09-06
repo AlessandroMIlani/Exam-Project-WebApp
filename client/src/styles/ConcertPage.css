@@ -1,0 +1,71 @@
+.seat {
+    border: 1px solid black;
+    height: 15px;
+    width: 35px;
+    max-width: 35px;
+    cursor: pointer;
+    border-radius: 20%;
+    text-align: center;
+    font-size: 12px;
+}
+
+.theater {
+    border-collapse: separate; /* Ensures that cells are separated */
+    border-spacing: 8px; /* Adds space between cells */
+    border: 1px solid  rgba(0, 0, 0, 0.175);
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.theaters th, .theaters td {
+    padding: 15px;
+    border-radius: 10px; /* Rounded corners */
+    text-align: center; /* Center align text */
+  }
+
+
+
+
+.booked {
+    background-color: rgba(210, 0, 0, 0.87);
+    cursor: not-allowed;
+    color: white;
+}
+
+.pre-booked {
+    background-color: rgba(255, 255, 0, 0.7);
+}
+
+.available {
+    background-color: rgba(0, 128, 0, 0.7);
+}
+
+.error-booked {
+    background-color: rgba(0, 0, 200, 0.7);
+}
+
+.legend-booked {
+    color: rgba(210, 0, 0, 0.87);
+}
+
+.legend-pre-booked {
+    color: yellow;
+    -webkit-text-stroke: 1px black;
+}
+
+.legend-available {
+    color: rgba(0, 128, 0, 0.7);
+}
+
+.already-booked {
+    background-color: rgba(0, 0, 255, 0.7);
+}
+
+.upper-alert {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1050; /* Assicurati che questo valore sia abbastanza alto da sovrastare il footer */
+    width: auto;
+}
