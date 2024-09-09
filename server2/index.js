@@ -32,53 +32,56 @@ app.use(jwt({
 );
 
 
-// To return a better object in case of errors
-app.use( function (err, req, res, next) {
+// Error handling
+app.use(function (err, req, res, next) {
   //console.log("DEBUG: error handling function executed");
   console.log(err);
   if (err.name === 'UnauthorizedError') {
     // Example of err content:  {"code":"invalid_token","status":401,"name":"UnauthorizedError","inner":{"name":"TokenExpiredError","message":"jwt expired","expiredAt":"2024-05-23T19:23:58.000Z"}}
-    res.status(401).json({ errors: [{  'param': 'Server', 'msg': 'Authorization error', 'path': err.code }] });
+    res.status(401).json({ errors: [{ 'param': 'Server', 'msg': 'Authorization error', 'path': err.code }] });
   } else {
     next();
   }
-} );
+});
 
 
-// Protected route example
+// ----------------- API -----------------
+
+// GET /api/discount
+// calculates a discount based on the seats provided
 app.post('/api/discount',
   body('seats', "Seats must be an array").isArray(),
   (req, res) => {
-      // Check if validation is ok
-      const err = validationResult(req);
-      const errList = [];
-      if (!err.isEmpty()) {
-        errList.push(...err.errors.map(e => e.msg));
-        return res.status(400).json({errors: errList});
-      }
+    // Check if validation is ok
+    const err = validationResult(req);
+    const errList = [];
+    if (!err.isEmpty()) {
+      errList.push(...err.errors.map(e => e.msg));
+      return res.status(400).json({ errors: errList });
+    }
     //console.log("DEBUG: auth: ",req.auth);
-  
+
     const loyalUser = req.auth.access;
     const seats = req.body.seats;
     let discount = 0;
 
-    for(const seat of seats){
+    for (const seat of seats) {
       const seatNumber = parseInt(seat.split('-')[0]);
       discount += seatNumber;
     }
     if (loyalUser === 0) {
       discount /= 3;
     }
-    discount +=  Math.random() * (20 - 5) + 5;
+    discount += Math.random() * (20 - 5) + 5;
     discount = Math.round(discount);
     discount = Math.max(5, Math.min(50, discount));
 
     res.json({ discount: discount });
-});
+  });
 
 
 
-/*** Other express-related instructions ***/
+// ----------------- Start Server -----------------
 
 // Activate the server
 app.listen(port, () => {
