@@ -54,7 +54,7 @@ exports.bookedByUser = (userId) => {
 }
 
 exports.bookSeats = (userId, concertId, seat_ids) => {
-    const seat_ids_json = '{"id":[' + seat_ids.join(",") + ']}';
+    const seat_ids_json = JSON.stringify({ id: seat_ids });
 
     const promise = seatDao.bookSeats(userId, concertId, seat_ids_json);
     return promise.then(res => {
