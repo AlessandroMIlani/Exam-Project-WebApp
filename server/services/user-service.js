@@ -18,7 +18,7 @@ exports.getUserByEmail = (email) => {
     return promise.then(res => {
         return res;
     }).catch(err => {
-        throw { code: err.code, message: err.message};
+        throw { code: err.code, message: err.message };
     });
 }
 

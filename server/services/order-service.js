@@ -18,7 +18,7 @@ exports.getBookedSeats = (concertId) => {
         });
         return result;
     }).catch(err => {
-        throw { code: err.code, message: { message: err.msg} };
+        throw { code: err.code, message: { message: err.msg } };
     });
 };
 
@@ -26,7 +26,7 @@ exports.checkSeats = (concertId, seat_ids) => {
     const promise = seatDao.getBookedSeats(concertId);
     return promise.then(res => {
         if (res.length === 0) {
-            return true;
+            return [];
         }
         const booked = []
         res.forEach(item => {
@@ -38,7 +38,7 @@ exports.checkSeats = (concertId, seat_ids) => {
         return alredyBooked;
     }).catch(err => {
         console.log("Some error in promise: ", err);
-        throw { code: err.code, message: { msg: err.message  } };
+        throw { code: err.code, message: { msg: err.message } };
     });
 
 };
@@ -49,7 +49,7 @@ exports.bookedByUser = (userId) => {
     return promise.then(res => {
         return res;
     }).catch(err => {
-        throw { code: err.code, message: { message: err.msg} };
+        throw { code: err.code, message: { message: err.msg } };
     });
 }
 
@@ -60,7 +60,7 @@ exports.bookSeats = (userId, concertId, seat_ids) => {
     return promise.then(res => {
         return res;
     }).catch(err => {
-        throw { code: err.code, message: { message: err.msg} };
+        throw { code: err.code, message: { message: err.msg } };
     });
 }
 
@@ -75,11 +75,11 @@ exports.deleteBookedSeat = (id, userId) => {
                 promise.then(res => {
                     resolve(res);
                 }).catch(err => {
-                    reject({ code: err.code, message: { message: err.msg} });
+                    reject({ code: err.code, message: { message: err.msg } });
                 });
             }
         }).catch(err => {
-            reject({ code: err.code, message: { message: err.msg} });
+            reject({ code: err.code, message: { message: err.msg } });
         });
     });
 }

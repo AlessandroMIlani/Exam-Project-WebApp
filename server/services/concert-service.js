@@ -8,7 +8,7 @@ exports.getConcerts = () => {
     return promise.then(res => {
         return res;
     }).catch(err => {
-        throw { code: err.code, message: { message: err.msg} };
+        throw { code: err.code, message: { message: err.msg } };
     });
 }
 
@@ -17,6 +17,6 @@ exports.getConcertById = (id) => {
     return promise.then(res => {
         return res;
     }).catch(err => {
-        throw { code: err.code, message: { message: err.msg} };
+        throw { code: err.code, message: { message: err.msg } };
     });
 }
