@@ -1,13 +1,13 @@
 import { React, useState, useContext } from 'react';
+import { Form, Button, ListGroup, Card, Toast } from 'react-bootstrap';
 import { FaTrash } from "react-icons/fa";
 import { RiDiscountPercentFill } from "react-icons/ri";
 
-import { Form, Button, ListGroup, Card, Toast } from 'react-bootstrap';
+import API from '../API';
 
 import { GenericModal } from './GenericModal';
 import UserContext from '../contexts/UserContext';
 
-import API from '../API';
 
 const ConcertOrder = (props) => {
     const [showModal, setShowModal] = useState(false);

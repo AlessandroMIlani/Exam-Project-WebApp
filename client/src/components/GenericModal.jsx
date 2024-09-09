@@ -31,7 +31,6 @@ const GenericModal = ({ show, handleClose, title, bodyText, items, onConfirm }) 
             Confirm
           </Button>  
       }
-
       </Modal.Footer>
     </Modal>
   );
