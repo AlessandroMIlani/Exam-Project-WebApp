@@ -1,6 +1,8 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/XYY1fduM)
+
 # Exam #3: "Web Applications"
-## Student: s332136 Milani Aleesandro 
+
+## Student: s332136 Milani Aleesandro
 
 ## React Client Application Routes
 
@@ -119,10 +121,9 @@
 
 ## Users Credentials
 
-- email: mario@nintendo.com password: kZ2VW*et
-- email: luigi@nintendo.com password: VRT5RUG@sv (loyal user)
-- email: link@nintendo.com  password: AMbC%S8Grh
-- email: kojima@kojima.com  password: Fhc!7QjATn (loyal user)
-- email: miyazaki@soul.com  password: Te3Tcg5B@6
-- email: the-last@ofus.com  password: 8ob%FlnYe (loyal user)
-- 
+- email: <mario@nintendo.com> password: kZ2VW*et
+- email: <luigi@nintendo.com> password: VRT5RUG@sv (loyal user)
+- email: <link@nintendo.com>  password: AMbC%S8Grh
+- email: <kojima@kojima.com>  password: Fhc!7QjATn (loyal user)
+- email: <miyazaki@soul.com>  password: Te3Tcg5B@6
+- email: <the-last@ofus.com>  password: 8ob%FlnYe (loyal user)
