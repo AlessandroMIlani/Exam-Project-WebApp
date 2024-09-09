@@ -3,6 +3,7 @@
 /* Data Access Object (DAO) module for accessing users data */
 
 const db = require('../db');
+db.get('PRAGMA foreign_keys = ON');
 
 const convertRowtoUser = (row) => {
   return {

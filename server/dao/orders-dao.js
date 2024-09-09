@@ -2,6 +2,7 @@
 
 const db = require('../db');
 const dayjs = require("dayjs");
+db.get('PRAGMA foreign_keys = ON');
 
 const convertRowtoConcert = (dbRecord) => {
     return {
@@ -33,14 +34,12 @@ exports.getBookedSeats = (concertId) => {
             WHERE concert_id = ? AND deleted_at IS NULL
         `;
         db.all(query, [concertId], (err, rows) => {
-            if (err) { reject(err); }
+            if (err) { reject({ code: 500, msg: "DB down" }); }
             const seats = rows.map((row) => {
                 return convertRowtoConcert(row);
             });
             resolve(seats);
-        })/* .catch(err => {
-            reject(err);
-        }) */;
+        });
 
     });
 }
@@ -61,26 +60,24 @@ exports.getBookedByUser = (userId) => {
                 return convertSeatsWithConcert(row);
             });
             resolve(seats);
-        })/* .catch(err => {
-            reject(err);
-        }) */;
+        });
 
     });
 }
 
 // TODO: check if insert seat_ids in this way can lead to SQL injection
 exports.bookSeats = (userId, concertId, seat_ids) => {
+    console.log("userID: ", userId, "concertID: ", concertId);
+    
     return new Promise((resolve, reject) => {
         const query = `
             INSERT INTO orders (concert_id, user_id, seats)
             VALUES (?, ?, ?)
         `;
         db.run(query, [concertId, userId, seat_ids], function (err) {
-            if (err) { reject(err); }
+            if (err) { reject({ code: 500, msg: "Error Keys" }); }
             resolve({ id: this.lastID });
-        })/* .catch(err => {
-            reject(err);
-        }) */;
+        });
     });
 }
 
@@ -94,9 +91,7 @@ exports.deleteBookedSeat = (id, userId, time) => {
         db.run(query, [time, id, userId], function (err) {
             if (err) {reject(err); }
             resolve({ id: this.lastID });
-        })/* .catch(err => {
-            reject(err);
-        }) */;
+        });
     });
 }
 
@@ -114,8 +109,6 @@ exports.checkIsNotDeleted = (id, userId) => {
             } else {
                 resolve(false);
             }
-        })/* .catch(err => {
-            reject(err);
-        }) */;
+        });
     });
 }

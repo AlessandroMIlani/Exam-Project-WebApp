@@ -2,7 +2,7 @@
 
 const db = require('../db');
 const dayjs = require("dayjs");
-
+db.get('PRAGMA foreign_keys = ON');
 
 const convertConcertFromDb = (dbRecord) => {
     return {
