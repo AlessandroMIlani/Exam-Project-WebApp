@@ -1,9 +1,12 @@
-import {Container, Nav, Navbar as NavBootstrap, Button, NavDropdown, Col, Row} from 'react-bootstrap';
+import {Container, Nav, Navbar as NavBootstrap, Button, NavDropdown} from 'react-bootstrap';
 import { GiPirateFlag } from "react-icons/gi";
 import { Link, Outlet } from 'react-router-dom';
 import { useContext } from 'react';
+import { FaUser } from "react-icons/fa";
 
 import UserContext from '../contexts/UserContext';
+
+import "../styles/Navbar.css";
 
 function Navbar(props) {
   const userContext = useContext(UserContext);
@@ -16,8 +19,8 @@ function Navbar(props) {
           </NavBootstrap.Brand>
           <Nav className="ms-auto">
             {userContext.loggedIn ? (
-              <NavDropdown title={<span><i className="bi bi-person-circle"></i> <span>{userContext.user.email.split('@')[0]}</span></span>} id="basic-nav-dropdown">
-                <NavDropdown.Item as={Link} to="/orders">Reservations</NavDropdown.Item>
+              <NavDropdown title={<span><FaUser/>  {userContext.user.email.split('@')[0]}</span>} id="basic-nav-dropdown">
+                <NavDropdown.Item as={Link} to="/reservations">Reservations</NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item as={Button} onClick={props.logout}>Logout</NavDropdown.Item>
               </NavDropdown>

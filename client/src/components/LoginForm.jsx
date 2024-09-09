@@ -1,15 +1,14 @@
 import { useState } from 'react';
 import { Form, Button, Alert, Col, Row } from 'react-bootstrap';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function LoginForm(props) {
-  const [email, setEmail] = useState('bessassommazou-4952@yopmail.com');
+  const [email, setEmail] = useState('mario@nintendo.com');
   const [password, setPassword] = useState('kZ2VW*et');
 
   const [errorMessage, setErrorMessage] = useState('');
 
   const navigate = useNavigate();
-
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -34,25 +33,22 @@ function LoginForm(props) {
   };
 
   return (
-    <Row className="justify-content-md-center">
-      <Col xs={9} data-bs-theme="dark">
+    <Row className="d-flex  justify-content-md-center main-content my-3">
+      <Col xs={7} data-bs-theme="dark">
         <h2 className="display-3 mb-4">Login</h2>
-
         <Form onSubmit={handleSubmit} data-bs-theme="dark" className="p-3" style={{border: '1px solid black', borderRadius: '5px'}}>
           {errorMessage ? <Alert dismissible onClose={() => setErrorMessage('')} variant="danger">{errorMessage}</Alert> : null}
           <Form.Group className="mb-3">
             <Form.Label>E-m@il</Form.Label>
             <Form.Control
-              type="email"
-              value={email} placeholder="Example: john.doe@polito.it"
+              type="email" value={email} placeholder="Example: john.doe@polito.it"
               onChange={(ev) => setEmail(ev.target.value)}
             />
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label>Password</Form.Label>
             <Form.Control
-              type="password"
-              value={password} placeholder="Enter your password"
+              type="password" value={password} placeholder="Enter your password"
               onChange={(ev) => setPassword(ev.target.value)}
             />
           </Form.Group>
@@ -66,6 +62,5 @@ function LoginForm(props) {
 
   )
 };
-
 
 export { LoginForm };

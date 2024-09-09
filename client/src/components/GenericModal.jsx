@@ -10,11 +10,13 @@ const GenericModal = ({ show, handleClose, title, bodyText, items, onConfirm }) 
       </Modal.Header>
       <Modal.Body>
         {bodyText}
-        <ListGroup style={{ maxHeight: '15rem', overflowY: 'scroll' }}>
-          {items.map((item, index) => (
-            <ListGroup.Item key={index}>{item}</ListGroup.Item>
-          ))}
-        </ListGroup>
+        {items.length > 0 ?
+                <ListGroup style={{ maxHeight: '15rem', overflowY: 'scroll' }}>
+                {items.map((item, index) => (
+                  <ListGroup.Item key={index}>{item}</ListGroup.Item>
+                ))}
+              </ListGroup>
+              : null}
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={handleClose}>

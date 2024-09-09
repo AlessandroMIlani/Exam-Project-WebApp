@@ -1,15 +1,9 @@
 import { Card, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-
-
-
 const ConcertCard = (props) => {
     const { date, theater, description, name, id } = props.concert;
-
-
     return (
-
         <Card style={{ height: '12rem' }} className='concert-card'>
             <Card.Body>
                 <Card.Title>{name}</Card.Title>
@@ -22,7 +16,6 @@ const ConcertCard = (props) => {
                 <Button variant="dark" className='mx-auto' style={{ position: 'absolute', bottom: '5px' }}>
                 Go to &gt;&gt;
                 </Button> </Link>
-                
             </Card.Body>
         </Card>
     );
