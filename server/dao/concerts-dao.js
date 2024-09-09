@@ -38,7 +38,7 @@ exports.getConcerts = () => {
             JOIN theaters ON concerts.theater_id = theaters.id
         `;
         db.all(query, [], (err, rows) => {
-            if (err) { reject(err); }
+            if (err) {console.log("Error in ConcertsDAO - getConcert"); reject({ code: 500, msg: "Error in ConcertsDAO - getConcert" });}
             const concerts = rows.map((row) => {
                 return convertConcertFromDb(row);
             });
@@ -57,27 +57,13 @@ exports.getConcertById = (id) => {
             WHERE concerts.id = ?
         `;
         db.get(query, [id], (err, row) => {
-            if (err) { reject(err); }
+            if (err) {console.log("Error in ConcertsDAO - getConcertById + ", err); reject({ code: 500, msg: "Error in ConcertsDAO - getConcertById" });}
             if (row === undefined) {
-                throw { code: 500, message: { message: "id not present in the db"} };
+                reject({ code: 500, msg:  "id not present in the db" });
             }else {
                 const concertCard = covertConcertFullDataFromDb(row);
                 resolve(concertCard);
             }
-        });
-    });
-}
-
-
-exports.bookSeats = (book) => {
-    return new Promise((resolve, reject) => {
-        const query = `
-            INSERT INTO orders (concert_id, user_id, seats)
-            VALUES (?, ?, ?)
-        `;
-        db.run(query, [book.concertId, book.userId, book.seats], function(err) {
-            if (err) { reject(err); }
-            resolve(this.lastID);
         });
     });
 }

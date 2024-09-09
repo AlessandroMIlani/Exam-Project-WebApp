@@ -17,6 +17,7 @@ exports.getConcertById = (id) => {
     return promise.then(res => {
         return res;
     }).catch(err => {
-        throw { code: err.code, message: { message: err.msg } };
+        console.log("Error in getConcertById + ", err);
+        throw { code: err.code, message:  err.msg };
     });
 }

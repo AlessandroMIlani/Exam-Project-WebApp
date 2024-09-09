@@ -21,8 +21,10 @@ exports.getUserById = (id) => {
   return new Promise((resolve, reject) => {
     const sql = 'SELECT * FROM users WHERE id=?';
     db.get(sql, [id], (err, row) => {
-      if (err)
-        reject(err);
+      if (err) {
+        console.log("Error in UsersDAO - getUserById");
+        reject({ code: 500, message: "Error in UsersDAO - getUserById" });
+      }
       else if (row === undefined)
         resolve({ error: 'User not found.' });
       else { resolve(convertRowtoUser(row));
@@ -38,9 +40,10 @@ exports.getUserByEmail = (email) => {
     db.get(sql, [email], (err, row) => {
       if (row === undefined) {
         console.log("User not found");
-        reject({ code: 401, message: "User not found" });
+        reject({ code: 401, message: "Incorrect email or password" });
       }
       else if (err) {
+        console.log("Error in UsersDAO - getUserByEmail");
         reject(err);
       } else { resolve(convertRowtoUser(row)); }
     });

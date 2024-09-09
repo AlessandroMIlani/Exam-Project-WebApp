@@ -1,10 +1,10 @@
 "use strict";
 
-const seatDao = require('../dao/orders-dao');
+const ordersDao = require('../dao/orders-dao');
 const dayjs = require("dayjs");
 
 exports.getBookedSeats = (concertId) => {
-    const promise = seatDao.getBookedSeats(concertId);
+    const promise = ordersDao.getBookedSeats(concertId);
     return promise.then(res => {
         // result 
         const result = {
@@ -18,12 +18,12 @@ exports.getBookedSeats = (concertId) => {
         });
         return result;
     }).catch(err => {
-        throw { code: err.code, message: { message: err.msg } };
+        throw { code: err.code, message: err.msg };
     });
 };
 
 exports.checkSeats = (concertId, seat_ids) => {
-    const promise = seatDao.getBookedSeats(concertId);
+    const promise = ordersDao.getBookedSeats(concertId);
     return promise.then(res => {
         if (res.length === 0) {
             return [];
@@ -38,25 +38,25 @@ exports.checkSeats = (concertId, seat_ids) => {
         return alredyBooked;
     }).catch(err => {
         console.log("Some error in promise: ", err);
-        throw { code: err.code, message: { msg: err.message } };
+        throw { code: err.code, message: err.msg };
     });
 
 };
 
 
 exports.bookedByUser = (userId) => {
-    const promise = seatDao.getBookedByUser(userId);
+    const promise = ordersDao.getBookedByUser(userId);
     return promise.then(res => {
         return res;
     }).catch(err => {
-        throw { code: err.code, message: { message: err.msg } };
+        throw { code: err.code, message: err.msg };
     });
 }
 
 exports.bookSeats = (userId, concertId, seat_ids) => {
     const seat_ids_json = JSON.stringify({ id: seat_ids });
 
-    const promise = seatDao.bookSeats(userId, concertId, seat_ids_json);
+    const promise = ordersDao.bookSeats(userId, concertId, seat_ids_json);
     return promise.then(res => {
         return res;
     }).catch(err => {
@@ -66,12 +66,12 @@ exports.bookSeats = (userId, concertId, seat_ids) => {
 
 exports.deleteBookedSeat = (id, userId) => {
     return new Promise((resolve, reject) => {
-        const checkDel = seatDao.checkIsNotDeleted(id, userId);
+        const checkDel = ordersDao.checkIsNotDeleted(id, userId);
         checkDel.then(res => {
             if (!res) {
                 reject({ code: 400, message: { message: "Booking already deleted" } });
             } else {
-                const promise = seatDao.deleteBookedSeat(id, userId, dayjs().format("YYYY-MM-DD HH:mm"));
+                const promise = ordersDao.deleteBookedSeat(id, userId, dayjs().format("YYYY-MM-DD HH:mm"));
                 promise.then(res => {
                     resolve(res);
                 }).catch(err => {
