@@ -1,5 +1,5 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/XYY1fduM)
-# Exam #1234: "Web Applications"
+# Exam #3: "Web Applications"
 ## Student: s332136 Milani Aleesandro 
 
 ## React Client Application Routes
@@ -8,7 +8,7 @@
 - Route `/concert/:conertID`: Page of the single concert, the param: concertID is needed to recover from the database the needed informations
 - Route `/login`: page that give at the use the possibility to login with email and password
 - Route `/reservetions`: Page with a list of all the reservetions created by the user (with the possibility to detele each one of them)
-- Route `*`: All other route lead to a NotFoundLayout 
+- Route `*`: All other route lead to a NotFoundLayout
 
 - ...
 
@@ -119,10 +119,10 @@
 
 ## Users Credentials
 
-- email: mario@nintendo.com password: kZ2VW*et 
+- email: mario@nintendo.com password: kZ2VW*et
 - email: luigi@nintendo.com password: VRT5RUG@sv (loyal user)
 - email: link@nintendo.com  password: AMbC%S8Grh
 - email: kojima@kojima.com  password: Fhc!7QjATn (loyal user)
 - email: miyazaki@soul.com  password: Te3Tcg5B@6
 - email: the-last@ofus.com  password: 8ob%FlnYe (loyal user)
-
+- 
