@@ -1,14 +1,13 @@
 import { useState, useEffect } from 'react'
-import './styles//App.css'
 import { BrowserRouter, Route, Routes, useNavigate, Navigate } from 'react-router-dom'
 
+import API from './API.js';
+
 import { Navbar } from './components/Navbar'
-
 import { HomeLayout, ConcertLayout, LoginLayout, NotFoundLayout, ReservationsLayout } from './components/Layout'
-
 import UserContext from './contexts/UserContext'
 
-import API from './API.js';
+import './styles//App.css'
 
 function App() {
   return (
@@ -20,17 +19,15 @@ function App() {
 
 
 function AppWithRouter(props) {
-  const navigate = useNavigate();  // To be able to call useNavigate, the component must already be in BrowserRouter (see App)
-
+  
   const [loggedIn, setLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
   const [authToken, setAuthToken] = useState(undefined);
-
   const [ConcertList, setConcertList] = useState([]);
-
-
   const [messageQueue, setMessageQueue] = useState([]);
   const [currentMessage, setCurrentMessage] = useState('');
+
+  const navigate = useNavigate();  
 
   const handleErrors = (err) => {
     let msg = '';
@@ -66,7 +63,6 @@ useEffect(() => {
   checkAuth();
 }, []); 
 
-
   const handleLogin = (credentials) => {
     return new Promise(async (resolve, reject) => {
       try {
@@ -81,23 +77,21 @@ useEffect(() => {
     });
   };
 
-
   const handleLogout = async () => {
     await API.logout();
     setLoggedIn(false);
     setAuthToken(undefined);
-    // clean up everything
     setUser(null);
   };
 
   return (
-    <UserContext.Provider value={{ user, loggedIn }}>
+    <UserContext.Provider value={{ user, loggedIn, authToken }}>
     <Routes>
       <Route path="/" element={<Navbar logout={handleLogout} />}>
         <Route index element={<HomeLayout setConcertList={setConcertList} ConcertList={ConcertList} handleErrors={handleErrors}/>} />
-        <Route path="/concert/:concertId" element={<ConcertLayout authToken={authToken} setAuthToken={setAuthToken} handleErrors={handleErrors} />} />
+        <Route path="/concert/:concertId" element={<ConcertLayout handleErrors={handleErrors} />} />
         <Route path="/login" element={!loggedIn ? <LoginLayout login={handleLogin} /> : <Navigate replace to='/' />} />
-        <Route path="/reservations" element={ loggedIn ? <ReservationsLayout /> : <Navigate replace to='/' />} />
+        <Route path="/reservations" element={<ReservationsLayout loggedIn={loggedIn}  />} />
         <Route path="*" element={<NotFoundLayout />} />
       </Route>
     </Routes>
