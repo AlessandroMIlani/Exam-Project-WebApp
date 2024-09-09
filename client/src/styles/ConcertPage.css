@@ -23,9 +23,6 @@
     text-align: center; /* Center align text */
   }
 
-
-
-
 .booked {
     background-color: rgba(210, 0, 0, 0.87);
     cursor: not-allowed;
@@ -40,21 +37,37 @@
     background-color: rgba(0, 128, 0, 0.7);
 }
 
+.legend-square {
+    display: inline-block;
+    align-items: center;
+    width: 15px;
+    height: 15px;
+    margin-right: 5px;
+    border-radius: 5px; /* Rounded corners */
+    border-style: solid;
+    border-width: 1px;
+  }
+
+.legend-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.legend-pre-booked-square{
+    background-color: rgba(255, 255, 0, 0.7);
+}
+
+.legend-available-square {
+    background-color: rgba(0, 128, 0, 0.7);
+}
+
+.legend-booked-square {
+    background-color: rgba(210, 0, 0, 0.87);
+}
+
 .error-booked {
     background-color: rgba(0, 0, 200, 0.7);
-}
-
-.legend-booked {
-    color: rgba(210, 0, 0, 0.87);
-}
-
-.legend-pre-booked {
-    color: yellow;
-    -webkit-text-stroke: 1px black;
-}
-
-.legend-available {
-    color: rgba(0, 128, 0, 0.7);
 }
 
 .already-booked {

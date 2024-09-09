@@ -7,12 +7,15 @@
   z-index: 1;
 }
 
-
-
 .concert-card {
   transition: transform 0.3s ease;
 }
 
 .concert-card:hover {
   transform: scale(1.1);
+}
+
+.main-content {
+  padding-bottom: 5rem;    /* Footer height */
+  padding-top: 1rem;    /* Navbar height */
 }
