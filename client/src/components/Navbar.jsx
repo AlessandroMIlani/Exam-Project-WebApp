@@ -3,6 +3,7 @@ import { GiPirateFlag } from "react-icons/gi";
 import { Link, Outlet } from 'react-router-dom';
 import { useContext } from 'react';
 import { FaUser } from "react-icons/fa";
+import { GiPirateHat } from "react-icons/gi";
 
 import UserContext from '../contexts/UserContext';
 
@@ -19,7 +20,7 @@ function Navbar(props) {
           </NavBootstrap.Brand>
           <Nav className="ms-auto">
             {userContext.loggedIn ? (
-              <NavDropdown title={<span><FaUser/>  {userContext.user.email.split('@')[0]}</span>} id="basic-nav-dropdown">
+              <NavDropdown title={<span>{userContext.user.isLoyal ? <GiPirateHat size={20} /> : <FaUser size={20} />}  {userContext.user.email.split('@')[0]}</span>} id="basic-nav-dropdown">
                 <NavDropdown.Item as={Link} to="/reservations">Reservations</NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item as={Button} onClick={props.logout}>Logout</NavDropdown.Item>

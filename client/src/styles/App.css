@@ -7,11 +7,11 @@
   z-index: 1;
 }
 
-.concert-card {
+.generic-card {
   transition: transform 0.3s ease;
 }
 
-.concert-card:hover {
+.generic-card:hover {
   transform: scale(1.1);
 }
 

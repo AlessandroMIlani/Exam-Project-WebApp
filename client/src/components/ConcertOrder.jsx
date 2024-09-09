@@ -141,16 +141,15 @@ const ConcertOrder = (props) => {
                     handlePrenotationByserverClose();
                 }}
             />
-
-            <Toast style={{ zIndex: '200' }} delay={6000} animation={true} autohide
-                className='position-absolute top-0 start-50 translate-middle-x mx-3 my-3'
-                onClose={handleDiscountClose} show={showDiscountToast} >
-                <Toast.Header>
-                    <RiDiscountPercentFill />
-                    <strong className="me-auto">Discount</strong>
-                </Toast.Header>
-                <Toast.Body>{discountMessage}</Toast.Body>
-            </Toast>
+                <Toast style={{ zIndex: '200' }} delay={6000} animation={true} autohide
+                    className='position-absolute top-0 start-50 translate-middle-x mx-3 my-3'
+                    onClose={handleDiscountClose} show={showDiscountToast} >
+                    <Toast.Header>
+                        <RiDiscountPercentFill />
+                        <strong className="me-auto">Discount</strong>
+                    </Toast.Header>
+                    <Toast.Body>{discountMessage}</Toast.Body>
+                </Toast>
         </>
     );
 }

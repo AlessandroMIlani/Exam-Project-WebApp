@@ -54,7 +54,6 @@ const ConcertPage = (props) => {
                 ? 'booked'
                 : 'available'
             }`;
-
           return (
             <td
               key={id} id={`seats-${id}`} className={seatClass}
@@ -87,7 +86,7 @@ const ConcertPage = (props) => {
         : <>
           <Row className='my-3'>
             <Col xs={5}>
-              <Card className='concert-card d-flex ' style={{ minHeight: '10rem' }}>
+              <Card className='generic-card d-flex '>
                 <Card.Body className="align-items-stretch">
                   <Card.Title><h2>{concert.name}</h2></Card.Title>
                   <Card.Subtitle className="mb-2 text-muted">{concert.date} at {concert.theater}</Card.Subtitle>
@@ -98,9 +97,9 @@ const ConcertPage = (props) => {
               </Card>
             </Col>
             <Col xs={{ offset: 2, span: 5 }}>
-              <Card className='concert-card' style={{ minHeight: '10rem'}}>
+              <Card className='generic-card'>
                 <Card.Body className='d-flex align-items-stretch'>
-                  <table style={{ height: '100%', width: '100%' }} className='text-end'>
+                  <table className='text-end legend-table'>
                     <tbody>
                       <tr className='align-middle'>
                         <td><strong>Total Seats:</strong></td>

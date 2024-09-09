@@ -65,7 +65,7 @@ const ReservationsList = () => {
                                                 <Card.Text>
                                                     <strong>Date:</strong> {order.concert_date} <br />
                                                     <strong>Seats:</strong> {order.seats.map(seat => getSeat(seat, order.columns)).join(', ')}
-                                                    <Button variant="danger" size='sm' style={{ float: 'right' }} onClick={() => handleDelete(order.id)}><FaTrash /></Button>
+                                                    <Button className='delete-button' variant="danger" size='sm' onClick={() => handleDelete(order.id)}><FaTrash /></Button>
                                                 </Card.Text>
                                             </Card.Body>
                                         </Card>

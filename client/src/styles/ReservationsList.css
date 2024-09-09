@@ -5,3 +5,7 @@
 .order-card:hover {
   transform: scale(1.1);
 }
+
+.delete-button {
+   float: right;
+}

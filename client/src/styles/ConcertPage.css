@@ -23,18 +23,22 @@
     text-align: center; /* Center align text */
   }
 
+.available { background-color: rgba(0, 128, 0, 0.7); }
+
 .booked {
     background-color: rgba(210, 0, 0, 0.87);
     cursor: not-allowed;
     color: white;
 }
 
-.pre-booked {
-    background-color: rgba(255, 255, 0, 0.7);
-}
+.pre-booked { background-color: rgba(255, 255, 0, 0.7);}
 
-.available {
-    background-color: rgba(0, 128, 0, 0.7);
+.error-booked { background-color: rgba(0, 0, 200, 0.7); }
+
+.legend-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .legend-square {
@@ -48,12 +52,6 @@
     border-width: 1px;
   }
 
-.legend-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 .legend-pre-booked-square{
     background-color: rgba(255, 255, 0, 0.7);
 }
@@ -66,19 +64,11 @@
     background-color: rgba(210, 0, 0, 0.87);
 }
 
-.error-booked {
-    background-color: rgba(0, 0, 200, 0.7);
+.generic-card {
+    min-height: 10rem;
 }
 
-.already-booked {
-    background-color: rgba(0, 0, 255, 0.7);
-}
-
-.upper-alert {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1050; /* Assicurati che questo valore sia abbastanza alto da sovrastare il footer */
-    width: auto;
+.legend-table{
+    height: 100%; 
+    width: 100%;
 }

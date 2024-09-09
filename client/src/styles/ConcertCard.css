@@ -1,0 +1,13 @@
+.concert-card {
+  height: 12rem;
+}
+
+.link-to-concert {
+  text-decoration: none;
+  color: black;
+}
+
+.link-to-concert > Button {
+  position: absolute;
+   bottom: 5px;
+}

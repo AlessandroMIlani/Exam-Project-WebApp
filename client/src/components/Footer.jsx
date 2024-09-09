@@ -1,5 +1,3 @@
-
-
 const Footer = () => {
     return (
         <footer className="sticky-footer  bg-light py-3 text-center">
