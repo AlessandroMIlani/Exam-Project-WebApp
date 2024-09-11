@@ -23,7 +23,7 @@ exports.getUserById = (id) => {
     db.get(sql, [id], (err, row) => {
       if (err) {
         console.log("Error in UsersDAO - getUserById");
-        reject({ code: 500, message: "Error in UsersDAO - getUserById" });
+        reject({ code: 500, msg: "Error in UsersDAO - getUserById" });
       }
       else if (row === undefined)
         resolve({ error: 'User not found.' });
@@ -40,7 +40,7 @@ exports.getUserByEmail = (email) => {
     db.get(sql, [email], (err, row) => {
       if (row === undefined) {
         console.log("User not found");
-        reject({ code: 401, message: "Incorrect email or password" });
+        reject({ code: 401, msg: "Incorrect email or password" });
       }
       else if (err) {
         console.log("Error in UsersDAO - getUserByEmail");

@@ -75,7 +75,7 @@ const isLoggedIn = (req, res, next) => {
 app.get('/api/concerts', async (req, res) => {
   concertService.getConcerts()
     .then((concerts) => res.status(200).json(concerts))
-    .catch((err) => res.status(err.code).json(err.message));
+    .catch((err) => res.status(err.code).json({message: err.message}));
 });
 
 // GET /api/concerts/:id
@@ -85,10 +85,10 @@ app.get('/api/concerts/:id',
   async (req, res) => {
     concertService.getConcertById(req.params.id)
       .then((concert) => res.status(200).json(concert))
-      .catch((err) => res.status(err.code).json(err.message));
+      .catch((err) => res.status(err.code).json({message: err.message}));
   });
 
-
+ 
 // ----------------- Seats API -----------------
 
 
@@ -99,7 +99,7 @@ app.get('/api/concerts/:id/booked',
   async (req, res) => {
     seatService.getBookedSeats(req.params.id)
       .then((seats) => res.json(seats))
-      .catch((err) => res.status(err.code).json(err.message));
+      .catch((err) => res.status(err.code).json({message: err.message}));
   });
 
 // POST /api/concerts/:id/book
@@ -121,7 +121,7 @@ app.post('/api/concerts/:id/book', isLoggedIn, [
           res.status(400).json({ message: `Seats ${result} are already booked`, seats: result });
         }
       })
-      .catch((err) => res.status(400).json(err.message));
+      .catch((err) => res.status(400).json({message: err.message}));
   });
 
 // GET /api/user/booked
@@ -129,7 +129,7 @@ app.post('/api/concerts/:id/book', isLoggedIn, [
 app.get('/api/user/booked', isLoggedIn, async (req, res) => {
   seatService.bookedByUser(req.user.id)
     .then((seats) => res.status(200).json(seats))
-    .catch((err) => res.status(err.code).json(err.message));
+    .catch((err) => res.status(err.code).json({message: err.message}));
 });
 
 // DELETE /api/user/booked/:id
@@ -138,8 +138,8 @@ app.delete('/api/user/booked/:id', isLoggedIn,
   [check('id').isInt({ min: 1 })],
   async (req, res) => {
     seatService.deleteBookedSeat(req.params.id, req.user.id)
-      .then(() => res.json({ message: 'booking deleted' }))
-      .catch((err) => res.status(err.code).json(err.message));
+      .then(() => res.status(200).json({ message: 'booking deleted' }))
+      .catch((err) => res.status(err.code).json({message: err.message}));
   });
 
 
