@@ -1,4 +1,5 @@
 import { useEffect, useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Row, Col, Card, Container, Alert } from 'react-bootstrap';
 
 import API from '../API';
@@ -22,6 +23,7 @@ const ConcertPage = (props) => {
   const [alertMessage, setAlertMessage] = useState('');
   const [isLoading, setIsLoading] = useState(true);
 
+  const navigate = useNavigate();  
   const userContext = useContext(UserContext);
 
   useEffect(() => {
@@ -35,10 +37,10 @@ const ConcertPage = (props) => {
         setIsLoading(false);
       });
     }).catch(err => {
+      navigate('/404');
       props.handleErrors(err);
     });
   }, [concertId]);
-
 
   const buildTheater = () => {
     return Array.from({ length: concert.rows }).map((_, i) => (
@@ -80,7 +82,6 @@ const ConcertPage = (props) => {
 
   return (
     <Container className='mb-5 main-content my-3'>
-
       {isLoading
         ? <LoadingLayout />
         : <>

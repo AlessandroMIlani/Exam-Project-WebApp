@@ -59,7 +59,7 @@ exports.getConcertById = (id) => {
         db.get(query, [id], (err, row) => {
             if (err) {console.log("Error in ConcertsDAO - getConcertById + ", err); reject({ code: 500, msg: "Error in ConcertsDAO - getConcertById" });}
             if (row === undefined) {
-                reject({ code: 500, msg:  "id not present in the db" });
+                reject({ code: 404, msg:  "id not present in the db" });
             }else {
                 const concertCard = covertConcertFullDataFromDb(row);
                 resolve(concertCard);
