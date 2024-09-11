@@ -151,7 +151,7 @@ const ConcertPage = (props) => {
             {userContext.loggedIn ?
               <Col>
                 <ConcertOrder
-                  concert={concert}
+                  concert={concert} handleErrors={props.handleErrors}
                   setPreBookedSeats={setPreBookedSeats} preBookedSeats={preBookedSeats}
                   bookedSeats={bookedSeats} setbookedSeats={setbookedSeats}
                   setShowAlert={setShowAlert} setAlertMessage={setAlertMessage}

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { BrowserRouter, Route, Routes, useNavigate, Navigate } from 'react-router-dom'
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
 
 import API from './API.js';
 
@@ -17,7 +17,6 @@ function App() {
   );
 }
 
-
 function AppWithRouter(props) {
   
   const [loggedIn, setLoggedIn] = useState(false);
@@ -25,9 +24,6 @@ function AppWithRouter(props) {
   const [authToken, setAuthToken] = useState(undefined);
   const [ConcertList, setConcertList] = useState([]);
   const [messageQueue, setMessageQueue] = useState([]);
-  const [currentMessage, setCurrentMessage] = useState('');
-
-  const navigate = useNavigate();  
 
   const handleErrors = (err) => {
     let msg = '';
@@ -40,7 +36,6 @@ function AppWithRouter(props) {
       msg = err[0].msg + " : " + err[0].path;
     else if (typeof err === "string") msg = String(err);
     else msg = "Unknown Error";
-
     setMessageQueue(prevQueue => [...prevQueue, msg]);
     console.log(err);
   };
@@ -90,7 +85,7 @@ useEffect(() => {
       <Route path="/" element={<Navbar logout={handleLogout} />}>
         <Route index element={<HomeLayout setConcertList={setConcertList} ConcertList={ConcertList} handleErrors={handleErrors}/>} />
         <Route path="/concert/:concertId" element={<ConcertLayout handleErrors={handleErrors} />} />
-        <Route path="/login" element={!loggedIn ? <LoginLayout login={handleLogin} /> : <Navigate replace to='/' />} />
+        <Route path="/login" element={!loggedIn ? <LoginLayout login={handleLogin} handleErrors={handleErrors}/> : <Navigate replace to='/' />} />
         <Route path="/reservations" element={<ReservationsLayout loggedIn={loggedIn}  />} />
         <Route path="*" element={<NotFoundLayout />} />
       </Route>

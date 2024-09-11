@@ -8,7 +8,6 @@ import API from '../API';
 import { GenericModal } from './GenericModal';
 import UserContext from '../contexts/UserContext';
 
-
 const ConcertOrder = (props) => {
     const [showModal, setShowModal] = useState(false);
     const [showPrenotationModal, setShowPrenotationModal] = useState(false); // State variable for second modal
@@ -19,9 +18,7 @@ const ConcertOrder = (props) => {
     const { preBookedSeats, setPreBookedSeats, bookedSeats, setbookedSeats, concert } = props;
     const { setAlertMessage, setShowAlert, setErrorBookedSeats } = props;
 
-
     const userContext = useContext(UserContext);
-
 
     const confirmPreBooking = (toBookSeats) => {
         API.bookSeats(concert.id, toBookSeats).then(res => {
@@ -39,6 +36,7 @@ const ConcertOrder = (props) => {
                 setShowAlert(true);
             }
             else {
+                props.handleErrors(err);
                 setAlertMessage('Booking failed. Please try again.');
                 setShowAlert(true);
             }

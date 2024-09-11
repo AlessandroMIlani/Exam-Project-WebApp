@@ -23,10 +23,12 @@ function LoginForm(props) {
           if (res.code === 200) {
             navigate("/");
           } else {
-            setErrorMessage("How did you end up here?: " + res.message);
+            props.handleErrors(err); 
+            setErrorMessage("How did you end up here?: " + res.message); // If the return from the api is not 200 but also not an error
           }
         })
         .catch((err) => {
+          props.handleErrors(err);
           setErrorMessage(err.message);
         });
     }
