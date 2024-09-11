@@ -30,7 +30,7 @@ function NotFoundLayout(props) {
 function LoginLayout(props) {
   return (
     <>
-      <LoginForm login={props.login} />
+      <LoginForm login={props.login} handleErrors={props.handleErrors} />
       <Footer />
     </>
   );
