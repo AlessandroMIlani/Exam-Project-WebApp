@@ -4,7 +4,6 @@ import { json } from 'react-router-dom';
 const SERVER_URL = 'http://localhost:3001/api/';
 const SERVER2_URL = 'http://localhost:3002/api/';
 
-
 /**
  * A utility function for parsing the HTTP response.
  */
@@ -14,7 +13,6 @@ function getJson(httpResponsePromise) {
         httpResponsePromise
             .then((response) => {
                 if (response.ok) {
-                    // the server always returns a JSON, even empty {}. Never null or non json, otherwise the method will fail
                     response.json()
                         .then(json => resolve(json))
                         .catch(err => reject({ error: "Cannot parse server response" }))
@@ -81,7 +79,6 @@ const getBookedSeatsByID = async (id) => {
             seats: seats.seats
         };
         return clientSeat;
-
     });
 }
 
@@ -123,29 +120,22 @@ const deleteBookedSeat = async (id) => {
     }));
 }
 
-/**
- * This function wants email and password inside a "credentials" object.
- * It executes the log-in.
- */
+
 const logIn = async (credentials) => {
     return getJson(fetch(SERVER_URL + 'login', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        credentials: 'include',  // this parameter specifies that authentication cookie must be forwared
+        credentials: 'include',  
         body: JSON.stringify(credentials),
     })
     )
 };
 
-/**
- * This function is used to verify if the user is still logged-in.
- * It returns a JSON object with the user info.
- */
+
 const getUserInfo = async () => {
     return getJson(fetch(SERVER_URL + 'sessions/current', {
-        // this parameter specifies that authentication cookie must be forwared
         credentials: 'include'
     })
     )
@@ -154,7 +144,6 @@ const getUserInfo = async () => {
 const logout = async () => {
     return getJson(fetch(SERVER_URL + 'logout', {
         method: 'DELETE',
-        // this parameter specifies that authentication cookie must be forwared
         credentials: 'include'
     })
     )
@@ -162,7 +151,6 @@ const logout = async () => {
 
 async function getAuthToken() {
     return getJson(fetch(SERVER_URL + 'auth-token', {
-        // this parameter specifies that authentication cookie must be forwared
         credentials: 'include'
     })
     )

@@ -1,3 +1,5 @@
+-- --------------- Create Tables ----------------
+
 CREATE TABLE `sizes` (
   `id` integer PRIMARY KEY,
   `name` TEXT UNIQUE NOT NULL,
@@ -40,11 +42,12 @@ CREATE TABLE `orders` (
   FOREIGN KEY (`concert_id`) REFERENCES `concerts` (`id`)
 );
 
+-- --------------- Insert Data ----------------
+
 INSERT INTO `sizes` (`name`, `rows`, `columns`, `total_seat`) VALUES 
 ('small', 5, 5, 25),
 ('medium', 10, 10, 100),
 ('large', 15, 15, 225);
-
 
 INSERT INTO `theaters` (`name`, `size_id`) VALUES 
 ('Tokio Dome', 1),
@@ -54,18 +57,10 @@ INSERT INTO `theaters` (`name`, `size_id`) VALUES
 INSERT INTO `concerts` (`name`, `datetime`, `description`, `theater_id`) VALUES 
 ('Sabaton Event', '2025-12-01 20:00', ' The War to End All Wars - Tour', 1),
 ('Gojira Reunion', '2024-12-02 20:00', ' From Mars to Sirius - Tour', 2),
-('BTS in USA', '2023-11-03 20:00', ' Love Yourself - Tour', 3),
+('BTS in USA', '2025-11-03 20:00', ' Love Yourself - Tour', 3),
 ('The Weeknd', '2024-11-04 20:00', ' After Hours - Tour', 1),
 ('Metallica', '2024-10-06 20:00', ' WorldWired - Tour', 3),
 ('Queen', '2023-11-07 20:00', ' The Works - Tour', 1);
-
-
--- user1 psw: kZ2VW*et salt: MpjYHtuoyiuqGHjb
--- user2 psw: VRT5RUG@sv salt: hRTVsmuSyivnfWFN loyal
--- user3 psw: AMbC%S8Grh salt: iIbMkWlmYMEMHiGV
--- user4 psw: Fhc!7QjATn salt: iTcLPIGdjeSvWMTA loyal
--- user5 psw: Te3Tcg5B@6 salt: aclMKHaYuZZPoosN
--- user6 psw: 8ob%FlnYe# salt: nkLYzwcpmjmtYigP loyal
 
 INSERT into `users` (`email`, `hash_pswd`, `salt`, `is_loyal`) VALUES  
 ('mario@nintendo.com', '9dd88a9d2da2af5d76a62dc3ed812089f9b25969a9e747e6692a551524da24f70c6d1e8e483bdff4865113797381414d0d97b49bba2d7e67b89f6a61f82bf51d', 'MpjYHtuoyiuqGHjb', 0),
@@ -74,7 +69,6 @@ INSERT into `users` (`email`, `hash_pswd`, `salt`, `is_loyal`) VALUES
 ('kojima@kojima.com', '0efbc21799152e67687a412660643b98e2c218406ecf9d3d0cb49c83e9e723804bf587002d74fa4653cfe8546e8758999fd6a67b03fe32b7d19e111096353001', 'iTcLPIGdjeSvWMTA', 1),
 ('miyazaki@soul.com', 'a2601ae79e6cb7a734f959c639fa8c0164e43ce92f25435fc0f5ee663527da8d63cbaae009ac4d7e6c78708a5208d958336f8f65396602f02894d68904ac119d', 'aclMKHaYuZZPoosN', 0),
 ('the-last@ofus.com', 'b86326eb284065535692ef1be88aebf9ef147620cfaf3c90053b6c28140ab215a7231b134246e7bac69ffd7782a8be457fb4e9b03456249514828715ad58d8ae', 'nkLYzwcpmjmtYigP', 1);
-
 
 INSERT INTO `orders` (`user_id`, `concert_id`, `seats`) VALUES 
 (1, 1, '{"id":[ 1,3,5]}'), 
