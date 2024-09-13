@@ -1,5 +1,4 @@
 import dayjs from 'dayjs';
-import { json } from 'react-router-dom';
 
 const SERVER_URL = 'http://localhost:3001/api/';
 const SERVER2_URL = 'http://localhost:3002/api/';
@@ -31,7 +30,6 @@ function getJson(httpResponsePromise) {
             ) // connection error
     });
 }
-
 
 const getConcerts = async () => {
     return getJson(
@@ -120,7 +118,6 @@ const deleteBookedSeat = async (id) => {
     }));
 }
 
-
 const logIn = async (credentials) => {
     return getJson(fetch(SERVER_URL + 'login', {
         method: 'POST',
@@ -132,7 +129,6 @@ const logIn = async (credentials) => {
     })
     )
 };
-
 
 const getUserInfo = async () => {
     return getJson(fetch(SERVER_URL + 'sessions/current', {
@@ -165,14 +161,13 @@ const getDiscount = async (seatsLabel, authToken) => {
             'Authorization': `Bearer ${authToken}`,
             'Content-Type': 'application/json',
         },
-        credentials: 'include',
         body: JSON.stringify({ seats: seatsLabel}),
     }));
 }
-
 
 const API = {
     getConcerts, getConcertByID, getBookedSeatsByID, getBookedSeatsByUser, bookSeats, deleteBookedSeat, getUserInfo,
     logIn, logout, getAuthToken, getDiscount
 };
+
 export default API;
