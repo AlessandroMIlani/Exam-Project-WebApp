@@ -1,4 +1,3 @@
-
 .sticky-footer {
   position: fixed;
   left: 0;
@@ -10,7 +9,6 @@
 .generic-card {
   transition: transform 0.3s ease;
   min-height: 11rem;
-
 }
 
 .generic-card:hover {

@@ -10,7 +10,6 @@ const ConcertCard = (props) => {
             <Card.Body>
                 <Card.Title>{name}</Card.Title>
                 <Card.Subtitle className="mb-2 text-muted">{date} at {theater}</Card.Subtitle>
-
                 <Card.Text>
                     {description.substring(0, 20) + '...' || description}
                 </Card.Text>

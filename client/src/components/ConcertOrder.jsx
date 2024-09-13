@@ -99,10 +99,11 @@ const ConcertOrder = (props) => {
                                     if (e.target.value > 1) {
                                         const newValue = Math.min(e.target.value, concert.total_seats - bookedSeats.seats.length);
                                         setNumSeats(newValue);
-                                    } else { setNumSeats(e.target.value); }
+                                    }
+                                     else { setNumSeats(e.target.value); }
                                 }}
                             />
-                            <Button className='mt-2' variant="dark" onClick={handlePrenotationClick}>Prenotate</Button>
+                            <Button className='mt-2' variant="dark" onClick={handlePrenotationClick}>Book</Button> 
                         </Form.Group>
                     </Form>
                 </Card.Body>

@@ -76,7 +76,7 @@ function ReservationsLayout(props) {
   );
 }
 
-function LoadingLayout(props) {
+function LoadingLayout() {
   return (
     <Container style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
       <Spinner animation="border" />

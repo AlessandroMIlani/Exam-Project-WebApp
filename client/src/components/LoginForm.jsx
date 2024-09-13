@@ -21,7 +21,7 @@ function LoginForm(props) {
       props.login(credentials)
         .then((res) => {
           if (res.code === 200) {
-            navigate("/");
+            navigate(-1);
           } else {
             props.handleErrors(err); 
             setErrorMessage("How did you end up here?: " + res.message); // If the return from the api is not 200 but also not an error
