@@ -45,9 +45,9 @@ CREATE TABLE `orders` (
 -- --------------- Insert Data ----------------
 
 INSERT INTO `sizes` (`name`, `rows`, `columns`, `total_seat`) VALUES 
-('small', 5, 5, 25),
-('medium', 10, 10, 100),
-('large', 15, 15, 225);
+('small', 4, 8, 32),
+('medium', 6, 10, 60),
+('large', 9, 14, 126);
 
 INSERT INTO `theaters` (`name`, `size_id`) VALUES 
 ('Tokio Dome', 1),
