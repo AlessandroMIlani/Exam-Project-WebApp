@@ -32,7 +32,10 @@ const ConcertOrder = (props) => {
             if (err.seats !== undefined) {
                 setAlertMessage(`sorry, but ${err.seats.length} ${err.seats.length > 1 ? 'seats are' : 'seat is'} already booked`);
                 setErrorBookedSeats(err.seats);
-                setPreBookedSeats({ seatsId: [], seatsLabel: [] });
+                setTimeout(() => {
+                    setErrorBookedSeats([]);
+                }, 5000);
+                setPreBookedSeats([]);
                 setShowAlert(true);
             }
             else {
@@ -68,7 +71,7 @@ const ConcertOrder = (props) => {
     const handleBookingClose = () => { setShowModal(false); };
     const handleDiscountClose = () => { setDiscountToast(false); };
 
-    const handlePrenotationClick = () => { setShowPrenotationModal(true); };
+    const handlePrenotationClick = () => {if(numSeats == 0) return; setShowPrenotationModal(true); };
     const handlePrenotationByserverClose = () => { setShowPrenotationModal(false); };
 
     const handleRemoveSeat = (index) => {
@@ -83,6 +86,13 @@ const ConcertOrder = (props) => {
         }));
     }
 
+    const handleInputChange = (e) => {
+        if (e.target.value >= 1) {
+            const newValue = Math.min(e.target.value, concert.total_seats - bookedSeats.seats.length);
+            setNumSeats(newValue);
+        } else { setNumSeats(1); }
+    }
+
     return (
         <>
             <Card>
@@ -95,15 +105,10 @@ const ConcertOrder = (props) => {
                                 min="1"
                                 max={concert.total_seats - bookedSeats.seats.length}
                                 value={numSeats}
-                                onChange={(e) => {
-                                    if (e.target.value > 1) {
-                                        const newValue = Math.min(e.target.value, concert.total_seats - bookedSeats.seats.length);
-                                        setNumSeats(newValue);
-                                    }
-                                     else { setNumSeats(e.target.value); }
-                                }}
+                                onChange={handleInputChange}
+                                disabled={concert.total_seats - bookedSeats.seats.length === 0}
                             />
-                            <Button className='mt-2' variant="dark" onClick={handlePrenotationClick}>Book</Button> 
+                            <Button className='mt-2' variant="dark" onClick={handlePrenotationClick} disabled={concert.total_seats - bookedSeats.seats.length === 0}>Book</Button> 
                         </Form.Group>
                     </Form>
                 </Card.Body>

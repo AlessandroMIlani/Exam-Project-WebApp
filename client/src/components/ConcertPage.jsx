@@ -81,11 +81,16 @@ const ConcertPage = (props) => {
   };
 
   return (
-    <Container className='mb-5 main-content my-3'>
+    <Container className='main-content my-3'>
       {isLoading
         ? <LoadingLayout />
         : <>
           <Row className='my-3'>
+          {showAlert && (
+              <Alert className='mt-3 fade show' variant={alertMessage.includes('successfully') ? 'success' : 'danger'} onClose={() => setShowAlert(false)} dismissible>
+                {alertMessage}
+              </Alert>
+            )}
             <Col xs={5}>
               <Card className='generic-card d-flex '>
                 <Card.Body className="align-items-stretch">
@@ -123,9 +128,9 @@ const ConcertPage = (props) => {
                       <tr className='align-top'>
                         <td>
                           <Row className={`legend-container my-2`}>
-                            <Col >Available: <div className="legend-square legend-available-square"></div></Col>
-                              <Col >Booked: <div className="legend-square legend-booked-square"></div></Col>
-                              {userContext.loggedIn ? <Col>Selected: <div className="legend-square legend-pre-booked-square"></div></Col> : null}
+                            <Col className='col-lg-4 col-md-12 flex-wrap  justify-content-center'>Available: <div className="legend-square legend-available-square"></div></Col>
+                              <Col className='col-lg-4 col-md-12 flex-wrap  justify-content-center'>Booked: <div className="legend-square legend-booked-square"></div></Col>
+                              {userContext.loggedIn ? <Col className='col-lg-4 col-md-12 flex-wrap'>Selected: <div className="legend-square legend-pre-booked-square "></div></Col> : null}
                           </Row>
                         </td>
                       </tr>
@@ -136,12 +141,7 @@ const ConcertPage = (props) => {
             </Col>
           </Row>
           <Row className='my-5'>
-            {showAlert && (
-              <Alert className='mt-3 fade show' variant={alertMessage.includes('successfully') ? 'success' : 'danger'} onClose={() => setShowAlert(false)} dismissible>
-                {alertMessage}
-              </Alert>
-            )}
-            <Col className={!userContext.loggedIn ? 'd-flex justify-content-center' : null}>
+            <Col className={!userContext.loggedIn ? 'd-flex justify-content-center ' : "col-12 col-md-8 col-lg-6" }>
               <table className="theater">
                 <tbody>
                   {buildTheater()}
@@ -149,7 +149,7 @@ const ConcertPage = (props) => {
               </table>
             </Col>
             {userContext.loggedIn ?
-              <Col>
+              <Col className='mt-2 mt-md-2 col-12 col-md-4 col-lg-6 '>
                 <ConcertOrder
                   concert={concert} handleErrors={props.handleErrors}
                   setPreBookedSeats={setPreBookedSeats} preBookedSeats={preBookedSeats}

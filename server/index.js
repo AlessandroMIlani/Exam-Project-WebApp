@@ -106,18 +106,18 @@ app.get('/api/concerts/:id/booked',
 // This route is used for booking seats for a concert.
 app.post('/api/concerts/:id/book', isLoggedIn, [
   check('id').isInt({ min: 1 }),
-  body('seats').isArray({ min: 1 }),
-  body('seats.*').isInt({ min: 1 }),
+  body('seats').isArray({ min: 1 }).custom((seats) => seats.every(seat => Number.isInteger(seat) && seat > 0)),
 ],
   async (req, res) => {
+    console.log(req.body.seats);
     seatService.checkSeats(req.params.id, req.body.seats)
       .then((result) => {
-        console.log("prima quary passata");
         if (result.length === 0) {
           seatService.bookSeats(req.user.id, req.params.id, req.body.seats)
             .then((BookID) => res.status(200).json({ message: 'booking confirmed', id: BookID.id }))
             .catch((err) => res.status(err.code).json(err.message));
         } else {
+          console.log(result);
           res.status(400).json({ message: `Seats ${result} are already booked`, seats: result });
         }
       })

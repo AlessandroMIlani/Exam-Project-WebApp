@@ -57,10 +57,10 @@ INSERT INTO `theaters` (`name`, `size_id`) VALUES
 INSERT INTO `concerts` (`name`, `datetime`, `description`, `theater_id`) VALUES 
 ('Sabaton Event', '2025-12-01 20:00', ' The War to End All Wars - Tour', 1),
 ('Gojira Reunion', '2024-12-02 20:00', ' From Mars to Sirius - Tour', 2),
-('BTS in USA', '2025-11-03 20:00', ' Love Yourself - Tour', 3),
-('The Weeknd', '2024-11-04 20:00', ' After Hours - Tour', 1),
-('Metallica', '2024-10-06 20:00', ' WorldWired - Tour', 3),
-('Queen', '2023-11-07 20:00', ' The Works - Tour', 1);
+('BTS The Wings Tour', '2025-11-03 20:00', 'Second worldwide concert tour headlined by the South Korean boy band BTS', 3),
+('After Hours til Dawn Tour ', '2024-11-04 20:00', 'Seventh concert tour by the Canadian singer-songwriter the Weeknd, in support of his fourth and fifth studio albums, After Hours', 1),
+('Metallica Reunion', '2024-10-06 20:00', 'WorldWired - Tour', 3),
+('Magical Mirai 2025', '2025-11-07 20:00', 'The 13th edition of the annual 3D live concert and exhibition event featuring Hatsune Miku and other virtual singers.', 1);
 
 INSERT into `users` (`email`, `hash_pswd`, `salt`, `is_loyal`) VALUES  
 ('mario@nintendo.com', '9dd88a9d2da2af5d76a62dc3ed812089f9b25969a9e747e6692a551524da24f70c6d1e8e483bdff4865113797381414d0d97b49bba2d7e67b89f6a61f82bf51d', 'MpjYHtuoyiuqGHjb', 0),
