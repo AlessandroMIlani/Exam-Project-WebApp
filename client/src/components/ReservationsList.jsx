@@ -1,12 +1,11 @@
-import { useEffect, useState, useContext } from 'react';
-import { Row, Col, Button, Container, Card } from 'react-bootstrap';
-import { FaTrash } from "react-icons/fa";
+import { useEffect, useState } from 'react';
+import { Row, Col, Container } from 'react-bootstrap';
 
 import API from '../API';
 
 import { LoadingLayout } from './Layout';
-import { getSeat } from '../services/utils';
 import { GenericModal } from './GenericModal';
+import { ReservationCard } from './ReservationCard';
 
 import '../styles/ReservationsList.css';
 
@@ -59,16 +58,7 @@ const ReservationsList = () => {
                             <Row>
                                 {orders.map(order => (
                                     <Col xs={12} md={4} lg={3} className='mb-3' key={order.id}>
-                                        <Card className='order-card'>
-                                            <Card.Body>
-                                                <Card.Title>{order.concert_name}</Card.Title>
-                                                <Card.Text>
-                                                    <strong>Date:</strong> {order.concert_date} <br />
-                                                    <strong>Seats:</strong> {order.seats.map(seat => getSeat(seat, order.columns)).join(', ')}
-                                                    <Button className='delete-button' variant="danger" size='sm' onClick={() => handleDelete(order.id)}><FaTrash /></Button>
-                                                </Card.Text>
-                                            </Card.Body>
-                                        </Card>
+                                        <ReservationCard order={order} handleDelete={handleDelete} />
                                     </Col>
                                 ))}
                             </Row>
