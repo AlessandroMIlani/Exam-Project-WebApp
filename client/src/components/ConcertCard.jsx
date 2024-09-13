@@ -6,7 +6,7 @@ import '../styles/ConcertCard.css';
 const ConcertCard = (props) => {
     const { date, theater, description, name, id } = props.concert;
     return (
-        <Card  className='concert-card generic-card'>
+        <Card  className='concert-card generic-card d-flex'>
             <Card.Body>
                 <Card.Title>{name}</Card.Title>
                 <Card.Subtitle className="mb-2 text-muted">{date} at {theater}</Card.Subtitle>

@@ -111,7 +111,7 @@ const ConcertOrder = (props) => {
             {preBookedSeats.length > 0 ?
                 <Card className='mt-2'>
                     <Card.Body>
-                        <Button className='w-50 mb-2' variant="dark"
+                        <Button className='mb-2' variant="dark"
                             onClick={handleConfirmClick}>Confirm selected seats
                         </Button>
                         <ListGroup style={{ maxHeight: '15rem', overflowY: 'scroll' }}>

@@ -64,10 +64,6 @@
     background-color: rgba(210, 0, 0, 0.87);
 }
 
-.generic-card {
-    min-height: 10rem;
-}
-
 .legend-table{
     height: 100%; 
     width: 100%;

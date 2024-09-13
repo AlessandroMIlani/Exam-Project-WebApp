@@ -98,8 +98,8 @@ const ConcertPage = (props) => {
               </Card>
             </Col>
             <Col xs={{ offset: 2, span: 5 }}>
-              <Card className='generic-card'>
-                <Card.Body className='d-flex align-items-stretch'>
+              <Card className='generic-card d-flex '>
+                <Card.Body className='align-items-stretch'>
                   <table className='text-end legend-table'>
                     <tbody>
                       <tr className='align-middle'>
