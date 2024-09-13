@@ -196,7 +196,13 @@ app.get('/api/auth-token', isLoggedIn, (req, res) => {
 });
 
 
-// ----------------- Activate the server
+// ----------------- Wildcard ----------------------
+
+app.all('*', function (req, res) {
+  res.status(/* 418 */ 403).json({ error: 'Forbidden' }); // I'm a teapot!
+});
+
+// ----------------- Activate the server -----------------
 
 app.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`);

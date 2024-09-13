@@ -41,7 +41,7 @@ app.use(function (err, req, res, next) {
   }
 });
 
-// ----------------- API -----------------
+// ----------------- API ---------------------
 
 // GET /api/discount
 // calculates a discount based on the seats provided
@@ -75,8 +75,14 @@ app.post('/api/discount',
     res.json({ discount: discount });
   });
 
+// ----------------- Wildcard ---------------------
+
+app.all('*', (req, res) => {
+  res.status(403).json({message: 'Forbiden'});
+});
 
 // ----------------- Start Server -----------------
+
 
 // Activate the server
 app.listen(port, () => {
