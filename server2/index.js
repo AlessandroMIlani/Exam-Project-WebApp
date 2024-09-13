@@ -31,19 +31,15 @@ app.use(jwt({
 })
 );
 
-
 // Error handling
 app.use(function (err, req, res, next) {
-  //console.log("DEBUG: error handling function executed");
   console.log(err);
   if (err.name === 'UnauthorizedError') {
-    // Example of err content:  {"code":"invalid_token","status":401,"name":"UnauthorizedError","inner":{"name":"TokenExpiredError","message":"jwt expired","expiredAt":"2024-05-23T19:23:58.000Z"}}
     res.status(401).json({ errors: [{ 'param': 'Server', 'msg': 'Authorization error', 'path': err.code }] });
   } else {
     next();
   }
 });
-
 
 // ----------------- API -----------------
 
@@ -78,7 +74,6 @@ app.post('/api/discount',
 
     res.json({ discount: discount });
   });
-
 
 
 // ----------------- Start Server -----------------

@@ -15,7 +15,6 @@ const convertRowtoUser = (row) => {
   };
 };
 
-
 // This function returns user's information given its id.
 exports.getUserById = (id) => {
   return new Promise((resolve, reject) => {

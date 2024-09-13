@@ -67,7 +67,6 @@ function ConcertLayout(props) {
 
 function ReservationsLayout(props) {
   // If i move this check to the router, it will navigate a logged user to home after a refresh
-  if (!props.loggedIn) {  return <Navigate to="/" />; }
   return (
     <>
       <ReservationsList />

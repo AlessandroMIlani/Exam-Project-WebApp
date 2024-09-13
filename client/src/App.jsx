@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
+import { BrowserRouter, Route, Routes, Navigate, useNavigate} from 'react-router-dom'
 
 import API from './API.js';
 
@@ -24,6 +24,8 @@ function AppWithRouter(props) {
   const [authToken, setAuthToken] = useState(undefined);
   const [ConcertList, setConcertList] = useState([]);
   const [messageQueue, setMessageQueue] = useState([]);
+
+  const navigate = useNavigate();
 
   const handleErrors = (err) => {
     let msg = '';
@@ -77,6 +79,7 @@ useEffect(() => {
     setLoggedIn(false);
     setAuthToken(undefined);
     setUser(null);
+    navigate('/');
   };
 
   return (
@@ -86,7 +89,7 @@ useEffect(() => {
         <Route index element={<HomeLayout setConcertList={setConcertList} ConcertList={ConcertList} handleErrors={handleErrors}/>} />
         <Route path="/concert/:concertId" element={<ConcertLayout handleErrors={handleErrors} />} />
         <Route path="/login" element={!loggedIn ? <LoginLayout login={handleLogin} handleErrors={handleErrors}/> : <Navigate replace to='/' />} />
-        <Route path="/reservations" element={<ReservationsLayout loggedIn={loggedIn}  />} />
+        <Route path="/reservations" element={loggedIn ? <ReservationsLayout loggedIn={loggedIn} /> : <Navigate replace to='/' />} />
         <Route path="*" element={<NotFoundLayout />} />
       </Route>
     </Routes>
