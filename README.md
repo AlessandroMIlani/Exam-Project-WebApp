@@ -109,8 +109,8 @@
 - `ConcertList` (in `ConcertList.js`): Is the main Component of the Home Page, display in the correct way all the concertCards
 - `ConcertPage` (in `ConcertPage.js`): Main compomnet of the page with all the details of a concert. Show all the info (name, location etc...) plus an interactive table with the available and booked seats.
 - `ConcertOrder` (in `ConcertOrder.js`): Piece of the Concertpage, is displayed only when an user is Logged In and give the possibility to book seats
+- `ReservetionCard` (in `ReservetionCard.js`): Component that display a single reservation in the ReservetionList
 - `ReservetionList` (in `ReservetionList.js`): Main component of the Reservations page, display all the reservetion of a specific user
-- ...
 - `Layouts`, `Navbar`, `Footer`, `GenericModal` and `LoginForm` not need a particular explainetion.
 
 ## Screenshot
