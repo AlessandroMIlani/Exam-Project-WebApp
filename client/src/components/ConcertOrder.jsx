@@ -37,6 +37,11 @@ const ConcertOrder = (props) => {
                 }, 5000);
                 setPreBookedSeats([]);
                 setShowAlert(true);
+                API.getBookedSeatsByID(concert.id).then(seats => {
+                    setbookedSeats(seats);
+                }).catch(err => {
+                    props.handleErrors(err);
+                });
             }
             else {
                 props.handleErrors(err);
@@ -71,7 +76,7 @@ const ConcertOrder = (props) => {
     const handleBookingClose = () => { setShowModal(false); };
     const handleDiscountClose = () => { setDiscountToast(false); };
 
-    const handlePrenotationClick = () => {if(numSeats == 0) return; setShowPrenotationModal(true); };
+    const handlePrenotationClick = () => { if (numSeats == 0) return; setShowPrenotationModal(true); };
     const handlePrenotationByserverClose = () => { setShowPrenotationModal(false); };
 
     const handleRemoveSeat = (index) => {
@@ -108,7 +113,7 @@ const ConcertOrder = (props) => {
                                 onChange={handleInputChange}
                                 disabled={concert.total_seats - bookedSeats.seats.length === 0}
                             />
-                            <Button className='mt-2' variant="dark" onClick={handlePrenotationClick} disabled={concert.total_seats - bookedSeats.seats.length === 0}>Book</Button> 
+                            <Button className='mt-2' variant="dark" onClick={handlePrenotationClick} disabled={concert.total_seats - bookedSeats.seats.length === 0}>Book</Button>
                         </Form.Group>
                     </Form>
                 </Card.Body>
@@ -145,15 +150,15 @@ const ConcertOrder = (props) => {
                     handlePrenotationByserverClose();
                 }}
             />
-                <Toast style={{ zIndex: '200' }} delay={6000} animation={true} autohide
-                    className='position-absolute top-0 start-50 translate-middle-x mx-3 my-3'
-                    onClose={handleDiscountClose} show={showDiscountToast} >
-                    <Toast.Header>
-                        <RiDiscountPercentFill />
-                        <strong className="me-auto">Discount</strong>
-                    </Toast.Header>
-                    <Toast.Body>{discountMessage}</Toast.Body>
-                </Toast>
+            <Toast style={{ zIndex: '200' }} delay={6000} animation={true} autohide
+                className='position-absolute top-0 start-50 translate-middle-x mx-3 my-3'
+                onClose={handleDiscountClose} show={showDiscountToast} >
+                <Toast.Header>
+                    <RiDiscountPercentFill />
+                    <strong className="me-auto">Discount</strong>
+                </Toast.Header>
+                <Toast.Body>{discountMessage}</Toast.Body>
+            </Toast>
         </>
     );
 }
