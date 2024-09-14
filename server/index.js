@@ -121,7 +121,7 @@ app.post('/api/concerts/:id/book', isLoggedIn, [
           res.status(400).json({ message: `Seats ${result} are already booked`, seats: result });
         }
       })
-      .catch((err) => res.status(400).json({message: err.message}));
+      .catch((err) => res.status(err.code).json({message: err.message}));
   });
 
 // GET /api/user/booked

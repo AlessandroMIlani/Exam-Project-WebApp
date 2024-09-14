@@ -12,8 +12,6 @@
 - Route `/reservetions`: Page with a list of all the reservetions created by the user (with the possibility to detele each one of them)
 - Route `*`: All other route lead to a NotFoundLayout
 
-- ...
-
 ## API Server
 
 - GET `/api/concerts`
@@ -64,45 +62,24 @@
   - Request headers: `Authorization` with Bearer token
   - Response body: JSON object containing discount details
 
+## Database Tables
+
 ![Database Schema](./img/database.png){.center-image width="80%"}
 
 - Table `users` - contains user information
-  - Columns:
-    - `id` (INTEGER): Primary key, unique identifier for each user.
-    - `email` (TEXT): Email address of the user.
-    - `hash_pswd` (TEXT): Hashed password of the user.
-    - `salt` (TEXT): Salt used for hashing the password.
-    - `is_loyal` (INTEGER): Indicates if the user is loyal (0 or 1).
+  - Columns: `id` (INTEGER PK), `email` (TEXT), `hash_pswd` (TEXT), `salt` (TEXT), `is_loyal` (INTEGER)
 
 - Table `concerts` - contains concert information
-  - Columns:
-    - `id` (INTEGER): Primary key, unique identifier for each concert.
-    - `name` (TEXT): Name of the concert.
-    - `date` (TEXT): Date and time of the concert.
-    - `description` (TEXT): Description of the concert.
-    - `theater_id` (INTEGER): Foreign key referencing the theater where the concert is held.
-    - `size_id` (INTEGER): Foreign key referencing the size of the concert.
+  - Columns: `id` (INTEGER PK), `name` (TEXT), `date` (TEXT), `description` (TEXT), `theater_id` (INTEGER FK), `size_id` (INTEGER FK)
 
 - Table `theaters` - contains theater information
-  - Columns:
-    - `id` (INTEGER): Primary key, unique identifier for each theater.
-    - `name` (TEXT): Name of the theater.
-    - `location` (TEXT): Location of the theater.
+  - Columns: `id` (INTEGER PK), `name` (TEXT), `location` (TEXT)
 
 - Table `sizes` - contains the possible sizes of theaters
-  - Columns:
-    - `id` (INTEGER): Primary key, unique identifier for each size.
-    - `rows` (INTEGER): Number of rows in the theater.
-    - `columns` (INTEGER): Number of columns in the theater.
-    - `total_seat` (INTEGER): Total number of seats in the theater.
+  - Columns: `id` (INTEGER PK), `rows` (INTEGER), `columns` (INTEGER), `total_seat` (INTEGER)
 
 - Table `orders` - contains all the reservations made by the users
-  - Columns:
-    - `id` (INTEGER): Primary key, unique identifier for each order.
-    - `user_id` (INTEGER): Foreign key referencing the user who made the booking.
-    - `concert_id` (INTEGER): Foreign key referencing the concert being booked.
-    - `seats` (TEXT): JSON string containing the list of booked seat IDs.
-    - `deleted_at` (TEXT): Timestamp indicating when the booking was deleted (if applicable).
+  - Columns: `id` (INTEGER PK), `user_id` (INTEGER FK), `concert_id` (INTEGER FK), `seats` (TEXT), `deleted_at` (TEXT)
 
 ## Main React Components
 
