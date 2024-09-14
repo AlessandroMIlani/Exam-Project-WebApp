@@ -33,7 +33,7 @@ exports.getBookedSeats = (concertId) => {
             WHERE concert_id = ? AND deleted_at IS NULL
         `;
         db.all(query, [concertId], (err, rows) => {
-            if (err) {console.log("Error in OrdersDAO - getBookedSeats"); reject({ code: 500, msg: "Error in OrdersDAO - getBookedSeats" });}
+            if (err) {console.log("Error in OrdersDAO - getBookedSeats"); reject({ code: 500, msg: "Error in the DB" });}
             const seats = rows.map((row) => {
                 return convertRowtoConcert(row);
             });
@@ -54,7 +54,7 @@ exports.getBookedByUser = (userId) => {
             WHERE user_id = ? AND deleted_at IS NULL
         `;
         db.all(query, [userId], (err, rows) => {
-            if (err) {console.log("Error in OrdersDAO - getBookedByUser"); reject({ code: 500, msg: "Error in OrdersDAO - getBookedByUser" });}
+            if (err) {console.log("Error in OrdersDAO - getBookedByUser"); reject({ code: 500, msg: "Error in the DB" });}
             const seats = rows.map((row) => {
                 return convertSeatsWithConcert(row);
             });
@@ -74,7 +74,7 @@ exports.bookSeats = (userId, concertId, seat_ids) => {
             VALUES (?, ?, ?)
         `;
         db.run(query, [concertId, userId, seat_ids], function (err) {
-            if (err) {console.log("Error in OrdersDAO - bookSeats"); reject({ code: 500, message: "Error in OrdersDAO - bookSeats" });}
+            if (err) {console.log("Error in OrdersDAO - bookSeats"); reject({ code: 500, message: "Error in the DB" });}
             resolve({ id: this.lastID });
         });
     });
@@ -88,7 +88,7 @@ exports.deleteBookedSeat = (id, userId, time) => {
         WHERE id = ? AND user_id = ?
         `;
         db.run(query, [time, id, userId], function (err) {
-            if (err) {console.log("Error in OrdersDAO - deleteBookedSeat"); reject({ code: 500, message: "Error in OrdersDAO - deleteBookedSeat" });}
+            if (err) {console.log("Error in OrdersDAO - deleteBookedSeat"); reject({ code: 500, message:"Error in the DB" });}
             resolve({ id: this.lastID });
         });
     });
@@ -102,7 +102,7 @@ exports.checkIsNotDeleted = (id, userId) => {
             WHERE id = ? AND user_id = ? AND deleted_at IS NULL
         `;
         db.get(query, [id, userId], (err, row) => {
-            if (err) {console.log("Error in OrdersDAO - checkIsNotDeleted"); reject({ code: 500, message: "Error in OrdersDAO - checkIsNotDeleted" });}
+            if (err) {console.log("Error in OrdersDAO - checkIsNotDeleted"); reject({ code: 500, message: "Error in the DB" });}
             if (row) {
                 resolve(true);
             } else {

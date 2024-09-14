@@ -38,7 +38,7 @@ exports.getConcerts = () => {
             JOIN theaters ON concerts.theater_id = theaters.id
         `;
         db.all(query, [], (err, rows) => {
-            if (err) {console.log("Error in ConcertsDAO - getConcert"); reject({ code: 500, msg: "Error in ConcertsDAO - getConcert" });}
+            if (err) {console.log("Error in ConcertsDAO - getConcert"); reject({ code: 500, msg: "Error in the DB" });}
             const concerts = rows.map((row) => {
                 return convertConcertFromDb(row);
             });
@@ -57,7 +57,7 @@ exports.getConcertById = (id) => {
             WHERE concerts.id = ?
         `;
         db.get(query, [id], (err, row) => {
-            if (err) {console.log("Error in ConcertsDAO - getConcertById + ", err); reject({ code: 500, msg: "Error in ConcertsDAO - getConcertById" });}
+            if (err) {console.log("Error in ConcertsDAO - getConcertById + ", err); reject({ code: 500, msg: "Error in the DB" });}
             if (row === undefined) {
                 reject({ code: 404, msg:  "id not present in the db" });
             }else {
